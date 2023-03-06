@@ -1136,4 +1136,5 @@ xcuserdata/
 
 ### Fixes
 
-!cpp/include
+!crates/clang-importer-sys/cxx
+
