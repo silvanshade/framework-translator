@@ -86,116 +86,134 @@ fn main() -> Result<(), BoxError> {
     println!("cargo:rustc-link-search={}", llvm_build_dir.join("lib").display());
     println!("cargo:rustc-link-search={}", cmark_build_dir.join("src").display());
 
-    link_swift_libs();
-    link_clang_libs();
-    link_llvm_libs();
-    link_system_libs();
+    link_swift_libs()?;
+    link_clang_libs()?;
+    link_llvm_libs()?;
+    link_system_libs()?;
 
     Ok(())
 }
 
-fn link_swift_libs() {
-    println!("cargo:rustc-link-lib=swiftClangImporter");
-    println!("cargo:rustc-link-lib=swiftSyntaxParse");
-    println!("cargo:rustc-link-lib=swiftAST");
-    println!("cargo:rustc-link-lib=swiftParse");
-    println!("cargo:rustc-link-lib=swiftMarkup");
-    println!("cargo:rustc-link-lib=swiftSyntax");
-    println!("cargo:rustc-link-lib=swiftBasic");
-    println!("cargo:rustc-link-lib=swiftDemangling");
+fn link_swift_libs() -> Result<(), BoxError> {
+    println!("cargo:rustc-link-lib=static=swiftClangImporter");
+    println!("cargo:rustc-link-lib=static=swiftSyntaxParse");
+    println!("cargo:rustc-link-lib=static=swiftAST");
+    println!("cargo:rustc-link-lib=static=swiftParse");
+    println!("cargo:rustc-link-lib=static=swiftMarkup");
+    println!("cargo:rustc-link-lib=static=swiftSyntax");
+    println!("cargo:rustc-link-lib=static=swiftBasic");
+    println!("cargo:rustc-link-lib=static=swiftDemangling");
+    Ok(())
 }
 
-fn link_clang_libs() {
-    println!("cargo:rustc-link-lib=clangDependencyScanning");
-    println!("cargo:rustc-link-lib=clangTooling");
-    println!("cargo:rustc-link-lib=clangRewriteFrontend");
-    println!("cargo:rustc-link-lib=clangCodeGen");
-    println!("cargo:rustc-link-lib=clangIndex");
-    println!("cargo:rustc-link-lib=clangFrontend");
-    println!("cargo:rustc-link-lib=clangDriver");
-    println!("cargo:rustc-link-lib=clangParse");
-    println!("cargo:rustc-link-lib=clangSerialization");
-    println!("cargo:rustc-link-lib=clangSema");
-    println!("cargo:rustc-link-lib=clangAPINotes");
-    println!("cargo:rustc-link-lib=clangEdit");
-    println!("cargo:rustc-link-lib=clangAnalysis");
-    println!("cargo:rustc-link-lib=clangLex");
-    println!("cargo:rustc-link-lib=clangAST");
-    println!("cargo:rustc-link-lib=clangBasic");
+fn link_clang_libs() -> Result<(), BoxError> {
+    println!("cargo:rustc-link-lib=static=clangDependencyScanning");
+    println!("cargo:rustc-link-lib=static=clangTooling");
+    println!("cargo:rustc-link-lib=static=clangRewriteFrontend");
+    println!("cargo:rustc-link-lib=static=clangCodeGen");
+    println!("cargo:rustc-link-lib=static=clangIndex");
+    println!("cargo:rustc-link-lib=static=clangFrontend");
+    println!("cargo:rustc-link-lib=static=clangDriver");
+    println!("cargo:rustc-link-lib=static=clangParse");
+    println!("cargo:rustc-link-lib=static=clangSerialization");
+    println!("cargo:rustc-link-lib=static=clangSema");
+    println!("cargo:rustc-link-lib=static=clangAPINotes");
+    println!("cargo:rustc-link-lib=static=clangEdit");
+    println!("cargo:rustc-link-lib=static=clangAnalysis");
+    println!("cargo:rustc-link-lib=static=clangLex");
+    println!("cargo:rustc-link-lib=static=clangAST");
+    println!("cargo:rustc-link-lib=static=clangBasic");
+    Ok(())
 }
 
-fn link_llvm_libs() {
-    println!("cargo:rustc-link-lib=LLVMOption");
-    println!("cargo:rustc-link-lib=LLVMAArch64AsmParser");
-    println!("cargo:rustc-link-lib=LLVMAArch64CodeGen");
-    println!("cargo:rustc-link-lib=LLVMAArch64Utils");
-    println!("cargo:rustc-link-lib=LLVMAArch64Desc");
-    println!("cargo:rustc-link-lib=LLVMAArch64Info");
-    println!("cargo:rustc-link-lib=LLVMARMAsmParser");
-    println!("cargo:rustc-link-lib=LLVMARMCodeGen");
-    println!("cargo:rustc-link-lib=LLVMARMUtils");
-    println!("cargo:rustc-link-lib=LLVMARMDesc");
-    println!("cargo:rustc-link-lib=LLVMARMInfo");
-    println!("cargo:rustc-link-lib=LLVMMipsAsmParser");
-    println!("cargo:rustc-link-lib=LLVMMipsCodeGen");
-    println!("cargo:rustc-link-lib=LLVMMipsDesc");
-    println!("cargo:rustc-link-lib=LLVMMipsInfo");
-    println!("cargo:rustc-link-lib=LLVMPowerPCAsmParser");
-    println!("cargo:rustc-link-lib=LLVMPowerPCCodeGen");
-    println!("cargo:rustc-link-lib=LLVMPowerPCDesc");
-    println!("cargo:rustc-link-lib=LLVMPowerPCInfo");
-    println!("cargo:rustc-link-lib=LLVMSystemZAsmParser");
-    println!("cargo:rustc-link-lib=LLVMSystemZCodeGen");
-    println!("cargo:rustc-link-lib=LLVMSystemZDesc");
-    println!("cargo:rustc-link-lib=LLVMSystemZInfo");
-    println!("cargo:rustc-link-lib=LLVMX86AsmParser");
-    println!("cargo:rustc-link-lib=LLVMX86CodeGen");
-    println!("cargo:rustc-link-lib=LLVMX86Desc");
-    println!("cargo:rustc-link-lib=LLVMX86Info");
-    println!("cargo:rustc-link-lib=LLVMMCDisassembler");
-    println!("cargo:rustc-link-lib=LLVMMCParser");
-    println!("cargo:rustc-link-lib=LLVMAsmPrinter");
-    println!("cargo:rustc-link-lib=LLVMDebugInfoCodeView");
-    println!("cargo:rustc-link-lib=LLVMDebugInfoDWARF");
-    println!("cargo:rustc-link-lib=LLVMCFGuard");
-    println!("cargo:rustc-link-lib=LLVMGlobalISel");
-    println!("cargo:rustc-link-lib=LLVMSelectionDAG");
-    println!("cargo:rustc-link-lib=LLVMCodeGen");
-    println!("cargo:rustc-link-lib=LLVMTarget");
-    println!("cargo:rustc-link-lib=LLVMLTO");
-    println!("cargo:rustc-link-lib=LLVMLinker");
-    println!("cargo:rustc-link-lib=LLVMPasses");
-    println!("cargo:rustc-link-lib=LLVMObjCARCOpts");
-    println!("cargo:rustc-link-lib=LLVMAggressiveInstCombine");
-    println!("cargo:rustc-link-lib=LLVMCoroutines");
-    println!("cargo:rustc-link-lib=LLVMInstrumentation");
-    println!("cargo:rustc-link-lib=LLVMInstCombine");
-    println!("cargo:rustc-link-lib=LLVMVectorize");
-    println!("cargo:rustc-link-lib=LLVMipo");
-    println!("cargo:rustc-link-lib=LLVMIRReader");
-    println!("cargo:rustc-link-lib=LLVMAsmParser");
-    println!("cargo:rustc-link-lib=LLVMBitWriter");
-    println!("cargo:rustc-link-lib=LLVMCoverage");
-    println!("cargo:rustc-link-lib=LLVMProfileData");
-    println!("cargo:rustc-link-lib=LLVMBitstreamReader");
-    println!("cargo:rustc-link-lib=LLVMFrontendOpenMP");
-    println!("cargo:rustc-link-lib=LLVMScalarOpts");
-    println!("cargo:rustc-link-lib=LLVMMC");
-    println!("cargo:rustc-link-lib=LLVMTransformUtils");
-    println!("cargo:rustc-link-lib=LLVMAnalysis");
-    println!("cargo:rustc-link-lib=LLVMObject");
-    println!("cargo:rustc-link-lib=LLVMTextAPI");
-    println!("cargo:rustc-link-lib=LLVMBitReader");
-    println!("cargo:rustc-link-lib=LLVMCore");
-    println!("cargo:rustc-link-lib=LLVMBinaryFormat");
-    println!("cargo:rustc-link-lib=LLVMRemarks");
-    println!("cargo:rustc-link-lib=LLVMSupport");
-    println!("cargo:rustc-link-lib=LLVMDemangle");
+fn link_llvm_libs() -> Result<(), BoxError> {
+    println!("cargo:rustc-link-lib=static=LLVMOption");
+    println!("cargo:rustc-link-lib=static=LLVMAArch64AsmParser");
+    println!("cargo:rustc-link-lib=static=LLVMAArch64CodeGen");
+    println!("cargo:rustc-link-lib=static=LLVMAArch64Utils");
+    println!("cargo:rustc-link-lib=static=LLVMAArch64Desc");
+    println!("cargo:rustc-link-lib=static=LLVMAArch64Info");
+    println!("cargo:rustc-link-lib=static=LLVMARMAsmParser");
+    println!("cargo:rustc-link-lib=static=LLVMARMCodeGen");
+    println!("cargo:rustc-link-lib=static=LLVMARMUtils");
+    println!("cargo:rustc-link-lib=static=LLVMARMDesc");
+    println!("cargo:rustc-link-lib=static=LLVMARMInfo");
+    println!("cargo:rustc-link-lib=static=LLVMMipsAsmParser");
+    println!("cargo:rustc-link-lib=static=LLVMMipsCodeGen");
+    println!("cargo:rustc-link-lib=static=LLVMMipsDesc");
+    println!("cargo:rustc-link-lib=static=LLVMMipsInfo");
+    println!("cargo:rustc-link-lib=static=LLVMPowerPCAsmParser");
+    println!("cargo:rustc-link-lib=static=LLVMPowerPCCodeGen");
+    println!("cargo:rustc-link-lib=static=LLVMPowerPCDesc");
+    println!("cargo:rustc-link-lib=static=LLVMPowerPCInfo");
+    println!("cargo:rustc-link-lib=static=LLVMSystemZAsmParser");
+    println!("cargo:rustc-link-lib=static=LLVMSystemZCodeGen");
+    println!("cargo:rustc-link-lib=static=LLVMSystemZDesc");
+    println!("cargo:rustc-link-lib=static=LLVMSystemZInfo");
+    println!("cargo:rustc-link-lib=static=LLVMX86AsmParser");
+    println!("cargo:rustc-link-lib=static=LLVMX86CodeGen");
+    println!("cargo:rustc-link-lib=static=LLVMX86Desc");
+    println!("cargo:rustc-link-lib=static=LLVMX86Info");
+    println!("cargo:rustc-link-lib=static=LLVMMCDisassembler");
+    println!("cargo:rustc-link-lib=static=LLVMMCParser");
+    println!("cargo:rustc-link-lib=static=LLVMAsmPrinter");
+    println!("cargo:rustc-link-lib=static=LLVMDebugInfoCodeView");
+    println!("cargo:rustc-link-lib=static=LLVMDebugInfoDWARF");
+    println!("cargo:rustc-link-lib=static=LLVMCFGuard");
+    println!("cargo:rustc-link-lib=static=LLVMGlobalISel");
+    println!("cargo:rustc-link-lib=static=LLVMSelectionDAG");
+    println!("cargo:rustc-link-lib=static=LLVMCodeGen");
+    println!("cargo:rustc-link-lib=static=LLVMTarget");
+    println!("cargo:rustc-link-lib=static=LLVMLTO");
+    println!("cargo:rustc-link-lib=static=LLVMLinker");
+    println!("cargo:rustc-link-lib=static=LLVMPasses");
+    println!("cargo:rustc-link-lib=static=LLVMObjCARCOpts");
+    println!("cargo:rustc-link-lib=static=LLVMAggressiveInstCombine");
+    println!("cargo:rustc-link-lib=static=LLVMCoroutines");
+    println!("cargo:rustc-link-lib=static=LLVMInstrumentation");
+    println!("cargo:rustc-link-lib=static=LLVMInstCombine");
+    println!("cargo:rustc-link-lib=static=LLVMVectorize");
+    println!("cargo:rustc-link-lib=static=LLVMipo");
+    println!("cargo:rustc-link-lib=static=LLVMIRReader");
+    println!("cargo:rustc-link-lib=static=LLVMAsmParser");
+    println!("cargo:rustc-link-lib=static=LLVMBitWriter");
+    println!("cargo:rustc-link-lib=static=LLVMCoverage");
+    println!("cargo:rustc-link-lib=static=LLVMProfileData");
+    println!("cargo:rustc-link-lib=static=LLVMBitstreamReader");
+    println!("cargo:rustc-link-lib=static=LLVMFrontendOpenMP");
+    println!("cargo:rustc-link-lib=static=LLVMScalarOpts");
+    println!("cargo:rustc-link-lib=static=LLVMMC");
+    println!("cargo:rustc-link-lib=static=LLVMTransformUtils");
+    println!("cargo:rustc-link-lib=static=LLVMAnalysis");
+    println!("cargo:rustc-link-lib=static=LLVMObject");
+    println!("cargo:rustc-link-lib=static=LLVMTextAPI");
+    println!("cargo:rustc-link-lib=static=LLVMBitReader");
+    println!("cargo:rustc-link-lib=static=LLVMCore");
+    println!("cargo:rustc-link-lib=static=LLVMBinaryFormat");
+    println!("cargo:rustc-link-lib=static=LLVMRemarks");
+    println!("cargo:rustc-link-lib=static=LLVMSupport");
+    println!("cargo:rustc-link-lib=static=LLVMDemangle");
+    Ok(())
 }
 
-fn link_system_libs() {
-    println!("cargo:rustc-link-arg=-l:libcmark.a");
+fn link_system_libs() -> Result<(), BoxError> {
+    println!("cargo:rustc-link-lib=static=cmark");
     println!("cargo:rustc-link-lib=ncurses");
-    println!("cargo:rustc-link-lib=uuid");
+    #[cfg(target_os = "linux")]
+    println!("cargo:rustc-link-lib=static=uuid");
     println!("cargo:rustc-link-lib=z");
+    #[cfg(target_os = "macos")]
+    {
+        let stdout = std::process::Command::new("clang").arg("--version").output()?.stdout;
+        let stdout = std::str::from_utf8(&stdout)?;
+        if stdout.starts_with("Apple clang version") {
+            if let Some(clang_version) = stdout.split_whitespace().nth(3) {
+                println!("cargo:rustc-link-search=/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/{clang_version}/lib/darwin");
+                println!("cargo:rustc-link-lib=static=clang_rt.osx");
+            }
+        } else {
+            return Err("Expected `Apple clang version` string from `clang --version`".into());
+        }
+    }
+    Ok(())
 }
