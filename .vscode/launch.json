@@ -1,0 +1,292 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug unit tests in library 'clang_importer_sys'",
+            "cargo": {
+                "args": [
+                    "test",
+                    "--no-run",
+                    "--lib",
+                    "--package=clang-importer-sys"
+                ],
+                "filter": {
+                    "name": "clang_importer_sys",
+                    "kind": "lib"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug integration test 'clang_importer'",
+            "cargo": {
+                "args": [
+                    "test",
+                    "--no-run",
+                    "--test=clang_importer",
+                    "--package=clang-importer-sys"
+                ],
+                "filter": {
+                    "name": "clang_importer",
+                    "kind": "test"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug integration test 'symbolgraphgen'",
+            "cargo": {
+                "args": [
+                    "test",
+                    "--no-run",
+                    "--test=symbolgraphgen",
+                    "--package=clang-importer-sys"
+                ],
+                "filter": {
+                    "name": "symbolgraphgen",
+                    "kind": "test"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug integration test 'source_manager'",
+            "cargo": {
+                "args": [
+                    "test",
+                    "--no-run",
+                    "--test=source_manager",
+                    "--package=clang-importer-sys"
+                ],
+                "filter": {
+                    "name": "source_manager",
+                    "kind": "test"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug integration test 'diagnostic_engine'",
+            "cargo": {
+                "args": [
+                    "test",
+                    "--no-run",
+                    "--test=diagnostic_engine",
+                    "--package=clang-importer-sys"
+                ],
+                "filter": {
+                    "name": "diagnostic_engine",
+                    "kind": "test"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug integration test 'sil_options'",
+            "cargo": {
+                "args": [
+                    "test",
+                    "--no-run",
+                    "--test=sil_options",
+                    "--package=clang-importer-sys"
+                ],
+                "filter": {
+                    "name": "sil_options",
+                    "kind": "test"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug integration test 'ast_context'",
+            "cargo": {
+                "args": [
+                    "test",
+                    "--no-run",
+                    "--test=ast_context",
+                    "--package=clang-importer-sys"
+                ],
+                "filter": {
+                    "name": "ast_context",
+                    "kind": "test"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug integration test 'lang_options'",
+            "cargo": {
+                "args": [
+                    "test",
+                    "--no-run",
+                    "--test=lang_options",
+                    "--package=clang-importer-sys"
+                ],
+                "filter": {
+                    "name": "lang_options",
+                    "kind": "test"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug integration test 'common'",
+            "cargo": {
+                "args": [
+                    "test",
+                    "--no-run",
+                    "--test=common",
+                    "--package=clang-importer-sys"
+                ],
+                "filter": {
+                    "name": "common",
+                    "kind": "test"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug integration test 'string_ref'",
+            "cargo": {
+                "args": [
+                    "test",
+                    "--no-run",
+                    "--test=string_ref",
+                    "--package=clang-importer-sys"
+                ],
+                "filter": {
+                    "name": "string_ref",
+                    "kind": "test"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug integration test 'type_checker_options'",
+            "cargo": {
+                "args": [
+                    "test",
+                    "--no-run",
+                    "--test=type_checker_options",
+                    "--package=clang-importer-sys"
+                ],
+                "filter": {
+                    "name": "type_checker_options",
+                    "kind": "test"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug integration test 'search_path_options'",
+            "cargo": {
+                "args": [
+                    "test",
+                    "--no-run",
+                    "--test=search_path_options",
+                    "--package=clang-importer-sys"
+                ],
+                "filter": {
+                    "name": "search_path_options",
+                    "kind": "test"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug integration test 'clang_importer_options'",
+            "cargo": {
+                "args": [
+                    "test",
+                    "--no-run",
+                    "--test=clang_importer_options",
+                    "--package=clang-importer-sys"
+                ],
+                "filter": {
+                    "name": "clang_importer_options",
+                    "kind": "test"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug executable 'clang-importer-cli'",
+            "cargo": {
+                "args": [
+                    "build",
+                    "--bin=clang-importer-cli",
+                    "--package=clang-importer-cli"
+                ],
+                "filter": {
+                    "name": "clang-importer-cli",
+                    "kind": "bin"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug unit tests in executable 'clang-importer-cli'",
+            "cargo": {
+                "args": [
+                    "test",
+                    "--no-run",
+                    "--bin=clang-importer-cli",
+                    "--package=clang-importer-cli"
+                ],
+                "filter": {
+                    "name": "clang-importer-cli",
+                    "kind": "bin"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        }
+    ]
+}
