@@ -120,6 +120,7 @@ fn link_clang_libs() -> Result<(), BoxError> {
     println!("cargo:rustc-link-lib=static=clangAPINotes");
     println!("cargo:rustc-link-lib=static=clangEdit");
     println!("cargo:rustc-link-lib=static=clangAnalysis");
+    println!("cargo:rustc-link-lib=static=clangASTMatchers");
     println!("cargo:rustc-link-lib=static=clangLex");
     println!("cargo:rustc-link-lib=static=clangAST");
     println!("cargo:rustc-link-lib=static=clangBasic");
@@ -200,7 +201,7 @@ fn link_system_libs() -> Result<(), BoxError> {
     println!("cargo:rustc-link-lib=static=cmark");
     println!("cargo:rustc-link-lib=ncurses");
     #[cfg(target_os = "linux")]
-    println!("cargo:rustc-link-lib=static=uuid");
+    println!("cargo:rustc-link-lib=uuid");
     println!("cargo:rustc-link-lib=z");
     #[cfg(target_os = "macos")]
     {
