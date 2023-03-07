@@ -7,9 +7,9 @@ namespace cxx {
 namespace llvm {
 namespace StringRef {
 
-std::unique_ptr<::llvm::StringRef> make();
+std::shared_ptr<::llvm::StringRef> make();
 
-std::unique_ptr<::llvm::StringRef> from_cxx_string(const std::string &Str);
+std::shared_ptr<::llvm::StringRef> from_cxx_string(const std::string &Str);
 
 bool equals(const ::llvm::StringRef &LHS, const ::llvm::StringRef &RHS);
 

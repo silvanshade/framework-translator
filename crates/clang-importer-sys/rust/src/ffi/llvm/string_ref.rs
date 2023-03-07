@@ -1,8 +1,9 @@
 #[cxx::bridge]
 pub(crate) mod ffi {
+    #[derive(Clone)]
     #[namespace = "rust::llvm"]
     struct StringRef {
-        ptr: UniquePtr<CxxStringRef>,
+        ptr: SharedPtr<CxxStringRef>,
     }
 
     #[namespace = "llvm"]
@@ -41,9 +42,9 @@ pub(crate) mod ffi {
     unsafe extern "C++" {
         include!("cxx/llvm/StringRef.hxx");
 
-        fn make() -> UniquePtr<CxxStringRef>;
+        fn make() -> SharedPtr<CxxStringRef>;
 
-        fn from_cxx_string(Str: &CxxString) -> UniquePtr<CxxStringRef>;
+        fn from_cxx_string(Str: &CxxString) -> SharedPtr<CxxStringRef>;
 
         fn equals(LHS: &CxxStringRef, RHS: &CxxStringRef) -> bool;
 
