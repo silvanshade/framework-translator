@@ -1,1 +1,1 @@
-pub use crate::ffi::llvm::string_ref::ffi::StringRef;
+pub use crate::ffi::llvm::{string_ref::ffi::StringRef, twine::ffi::Twine};
