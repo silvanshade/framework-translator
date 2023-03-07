@@ -1,5 +1,4 @@
-#ifndef CXX_LLVM_STRINGREF_HXX
-#define CXX_LLVM_STRINGREF_HXX
+#pragma once
 
 #include "llvm/ADT/StringRef.h"
 #include <memory>
@@ -20,5 +19,3 @@ bool equals_insensitive(const ::llvm::StringRef &LHS,
 } // namespace StringRef
 } // namespace llvm
 } // namespace cxx
-
-#endif // CXX_LLVM
