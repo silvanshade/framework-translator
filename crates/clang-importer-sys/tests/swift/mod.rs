@@ -1,0 +1,10 @@
+mod ast_context;
+mod clang_importer;
+mod clang_importer_options;
+mod diagnostic_engine;
+mod lang_options;
+mod search_path_options;
+mod sil_options;
+mod source_manager;
+mod symbolgraphgen;
+mod type_checker_options;

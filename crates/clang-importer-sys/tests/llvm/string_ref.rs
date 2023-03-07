@@ -1,6 +1,4 @@
-mod common;
-
-use crate::common::BoxError;
+use crate::BoxError;
 use clang_importer_sys::llvm::StringRef;
 use cxx::let_cxx_string;
 use tap::prelude::*;

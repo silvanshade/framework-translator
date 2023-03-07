@@ -1,5 +1,3 @@
-mod common;
-
 use clang_importer_sys::swift::LangOptions;
 
 #[test]
