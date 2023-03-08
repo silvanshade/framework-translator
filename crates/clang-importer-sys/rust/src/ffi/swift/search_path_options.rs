@@ -5,7 +5,7 @@ pub(crate) mod ffi {
     }
 
     #[namespace = "swift"]
-    unsafe extern "C++" {
+    extern "C++" {
         include!("swift/AST/SearchPathOptions.h");
 
         #[cxx_name = "SearchPathOptions"]
@@ -13,10 +13,10 @@ pub(crate) mod ffi {
     }
 
     #[namespace = "cxx::swift::SearchPathOptions"]
-    unsafe extern "C++" {
+    extern "C++" {
         include!("cxx/swift/SearchPathOptions.hxx");
 
-        fn make() -> UniquePtr<CxxSearchPathOptions>;
+        unsafe fn make() -> UniquePtr<CxxSearchPathOptions>;
     }
 }
 
@@ -24,15 +24,8 @@ use self::ffi::SearchPathOptions;
 
 impl SearchPathOptions {
     #[inline]
-    pub fn new() -> Self {
+    pub unsafe fn new() -> Self {
         let ptr = self::ffi::make();
         Self { ptr }
-    }
-}
-
-impl Default for SearchPathOptions {
-    #[inline]
-    fn default() -> Self {
-        Self::new()
     }
 }

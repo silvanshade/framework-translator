@@ -7,7 +7,7 @@ pub(crate) mod ffi {
     }
 
     #[namespace = "swift"]
-    unsafe extern "C++" {
+    extern "C++" {
         include!("swift/AST/ASTContext.h");
 
         #[cxx_name = "ASTContext"]
@@ -15,7 +15,7 @@ pub(crate) mod ffi {
     }
 
     #[namespace = "cxx::swift::ASTContext"]
-    unsafe extern "C++" {
+    extern "C++" {
         include!("cxx/swift/ASTContext.hxx");
 
         #[namespace = "rust::swift"]
@@ -45,7 +45,7 @@ pub(crate) mod ffi {
         #[namespace = "rust::swift"]
         type TypeCheckerOptions = crate::swift::TypeCheckerOptions;
 
-        fn get(
+        unsafe fn get(
             lang_opts: &mut LangOptions,
             typeck_opts: &mut TypeCheckerOptions,
             sil_opts: &mut SILOptions,
@@ -56,7 +56,7 @@ pub(crate) mod ffi {
             diags: &mut DiagnosticEngine,
         ) -> UniquePtr<CxxASTContext>;
 
-        fn getWithCallback(
+        unsafe fn getWithCallback(
             lang_opts: &mut LangOptions,
             typeck_opts: &mut TypeCheckerOptions,
             sil_opts: &mut SILOptions,
@@ -87,7 +87,7 @@ use crate::{
 
 impl ASTContext {
     #[inline]
-    pub fn get(
+    pub unsafe fn get(
         lang_opts: &mut LangOptions,
         typeck_opts: &mut TypeCheckerOptions,
         sil_opts: &mut SILOptions,
@@ -111,7 +111,7 @@ impl ASTContext {
     }
 
     #[inline]
-    pub fn get_with_callback(
+    pub unsafe fn get_with_callback(
         lang_opts: &mut LangOptions,
         typeck_opts: &mut TypeCheckerOptions,
         sil_opts: &mut SILOptions,

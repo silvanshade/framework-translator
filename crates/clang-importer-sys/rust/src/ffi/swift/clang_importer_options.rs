@@ -5,7 +5,7 @@ pub(crate) mod ffi {
     }
 
     #[namespace = "swift"]
-    unsafe extern "C++" {
+    extern "C++" {
         include!("swift/Basic/LangOptions.h");
 
         #[cxx_name = "ClangImporterOptions"]
@@ -13,10 +13,10 @@ pub(crate) mod ffi {
     }
 
     #[namespace = "cxx::swift::ClangImporterOptions"]
-    unsafe extern "C++" {
+    extern "C++" {
         include!("cxx/swift/ClangImporterOptions.hxx");
 
-        fn make() -> UniquePtr<CxxClangImporterOptions>;
+        unsafe fn make() -> UniquePtr<CxxClangImporterOptions>;
     }
 }
 
@@ -24,15 +24,8 @@ use self::ffi::ClangImporterOptions;
 
 impl ClangImporterOptions {
     #[inline]
-    pub fn new() -> Self {
+    pub unsafe fn new() -> Self {
         let ptr = self::ffi::make();
         Self { ptr }
-    }
-}
-
-impl Default for ClangImporterOptions {
-    #[inline]
-    fn default() -> Self {
-        Self::new()
     }
 }

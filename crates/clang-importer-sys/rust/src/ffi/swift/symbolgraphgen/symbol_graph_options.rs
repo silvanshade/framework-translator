@@ -5,7 +5,7 @@ pub(crate) mod ffi {
     }
 
     #[namespace = "swift::symbolgraphgen"]
-    unsafe extern "C++" {
+    extern "C++" {
         include!("swift/SymbolGraphGen/SymbolGraphOptions.h");
 
         #[cxx_name = "SymbolGraphOptions"]
@@ -13,10 +13,10 @@ pub(crate) mod ffi {
     }
 
     #[namespace = "cxx::swift::symbolgraphgen::SymbolGraphOptions"]
-    unsafe extern "C++" {
+    extern "C++" {
         include!("cxx/swift/symbolgraphgen/SymbolGraphOptions.hxx");
 
-        fn make() -> UniquePtr<CxxSymbolGraphOptions>;
+        unsafe fn make() -> UniquePtr<CxxSymbolGraphOptions>;
     }
 }
 
@@ -24,14 +24,8 @@ use self::ffi::SymbolGraphOptions;
 
 impl SymbolGraphOptions {
     #[inline]
-    pub fn new() -> Self {
+    pub unsafe fn new() -> Self {
         let ptr = self::ffi::make();
         Self { ptr }
-    }
-}
-
-impl Default for SymbolGraphOptions {
-    fn default() -> Self {
-        Self::new()
     }
 }

@@ -5,7 +5,7 @@ pub(crate) mod ffi {
     }
 
     #[namespace = "swift"]
-    unsafe extern "C++" {
+    extern "C++" {
         include!("swift/Basic/LangOptions.h");
 
         #[cxx_name = "LangOptions"]
@@ -13,18 +13,18 @@ pub(crate) mod ffi {
     }
 
     #[namespace = "cxx::swift::LangOptions"]
-    unsafe extern "C++" {
+    extern "C++" {
         include!("cxx/swift/LangOptions.hxx");
 
-        fn make() -> UniquePtr<CxxLangOptions>;
+        unsafe fn make() -> UniquePtr<CxxLangOptions>;
 
         #[namespace = "llvm"]
         #[cxx_name = "Triple"]
         type CxxTriple = crate::ffi::llvm::triple::ffi::CxxTriple;
 
-        fn Target(This: &CxxLangOptions) -> UniquePtr<CxxTriple>;
+        unsafe fn Target(This: &CxxLangOptions) -> UniquePtr<CxxTriple>;
 
-        fn SetTarget(This: Pin<&mut CxxLangOptions>, target: UniquePtr<CxxTriple>);
+        unsafe fn SetTarget(This: Pin<&mut CxxLangOptions>, target: UniquePtr<CxxTriple>);
     }
 }
 
@@ -33,28 +33,21 @@ use crate::llvm::Triple;
 
 impl LangOptions {
     #[inline]
-    pub fn new() -> Self {
+    pub unsafe fn new() -> Self {
         let ptr = self::ffi::make();
         Self { ptr }
     }
 
     #[inline]
-    pub fn target(&self) -> Triple {
+    pub unsafe fn target(&self) -> Triple {
         let this = &self.ptr;
         let ptr = self::ffi::Target(this);
         Triple { ptr }
     }
 
     #[inline]
-    pub fn set_target(&mut self, target: Triple) {
+    pub unsafe fn set_target(&mut self, target: Triple) {
         let this = self.ptr.pin_mut();
         self::ffi::SetTarget(this, target.ptr);
-    }
-}
-
-impl Default for LangOptions {
-    #[inline]
-    fn default() -> Self {
-        Self::new()
     }
 }

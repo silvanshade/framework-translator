@@ -5,7 +5,7 @@ pub(crate) mod ffi {
     }
 
     #[namespace = "swift"]
-    unsafe extern "C++" {
+    extern "C++" {
         include!("swift/AST/DiagnosticEngine.h");
 
         #[cxx_name = "DiagnosticEngine"]
@@ -13,23 +13,22 @@ pub(crate) mod ffi {
     }
 
     #[namespace = "cxx::swift::DiagnosticEngine"]
-    unsafe extern "C++" {
+    extern "C++" {
         include!("cxx/swift/DiagnosticEngine.hxx");
 
         #[namespace = "rust::swift"]
         type SourceManager = crate::swift::SourceManager;
 
-        fn make(source_mgr: &mut SourceManager) -> UniquePtr<CxxDiagnosticEngine>;
+        unsafe fn make(source_mgr: &mut SourceManager) -> UniquePtr<CxxDiagnosticEngine>;
     }
 }
 
 use self::ffi::DiagnosticEngine;
 use crate::swift::SourceManager;
 
-impl From<&mut SourceManager> for DiagnosticEngine {
-    #[inline]
-    fn from(value: &mut SourceManager) -> Self {
-        let ptr = self::ffi::make(value);
+impl DiagnosticEngine {
+    pub unsafe fn new(source_mgr: &mut SourceManager) -> Self {
+        let ptr = self::ffi::make(source_mgr);
         Self { ptr }
     }
 }

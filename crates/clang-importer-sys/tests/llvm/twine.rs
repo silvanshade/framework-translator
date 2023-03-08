@@ -4,20 +4,26 @@ use tap::prelude::*;
 
 #[test]
 fn new() {
-    let _ = Twine::new();
+    unsafe {
+        let _ = Twine::new();
+    }
 }
 
 #[test]
 fn from_cxx_string() {
-    let input = "string";
-    let_cxx_string!(str = input);
-    let _ = Twine::from(&*str);
+    unsafe {
+        let input = "string";
+        let_cxx_string!(str = input);
+        let _ = Twine::from_cxx_string(&*str);
+    }
 }
 
 #[test]
 fn from_string_ref() {
-    let input = "string";
-    let_cxx_string!(str = input);
-    let string_ref = StringRef::from(&*str);
-    let _ = Twine::from(&string_ref);
+    unsafe {
+        let input = "string";
+        let_cxx_string!(str = input);
+        let string_ref = StringRef::from_cxx_string(&*str);
+        let _ = Twine::from_string_ref(&string_ref);
+    }
 }

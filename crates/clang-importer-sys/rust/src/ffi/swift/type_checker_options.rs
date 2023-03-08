@@ -5,7 +5,7 @@ pub(crate) mod ffi {
     }
 
     #[namespace = "swift"]
-    unsafe extern "C++" {
+    extern "C++" {
         include!("swift/Basic/LangOptions.h");
 
         #[cxx_name = "TypeCheckerOptions"]
@@ -13,10 +13,10 @@ pub(crate) mod ffi {
     }
 
     #[namespace = "cxx::swift::TypeCheckerOptions"]
-    unsafe extern "C++" {
+    extern "C++" {
         include!("cxx/swift/TypeCheckerOptions.hxx");
 
-        fn make() -> UniquePtr<CxxTypeCheckerOptions>;
+        unsafe fn make() -> UniquePtr<CxxTypeCheckerOptions>;
     }
 }
 
@@ -24,14 +24,8 @@ use self::ffi::TypeCheckerOptions;
 
 impl TypeCheckerOptions {
     #[inline]
-    pub fn new() -> Self {
+    pub unsafe fn new() -> Self {
         let ptr = self::ffi::make();
         Self { ptr }
-    }
-}
-
-impl Default for TypeCheckerOptions {
-    fn default() -> Self {
-        Self::new()
     }
 }

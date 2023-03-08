@@ -5,7 +5,7 @@ pub(crate) mod ffi {
     }
 
     #[namespace = "swift"]
-    unsafe extern "C++" {
+    extern "C++" {
         include!("swift/Basic/SourceManager.h");
 
         #[cxx_name = "SourceManager"]
@@ -13,10 +13,10 @@ pub(crate) mod ffi {
     }
 
     #[namespace = "cxx::swift::SourceManager"]
-    unsafe extern "C++" {
+    extern "C++" {
         include!("cxx/swift/SourceManager.hxx");
 
-        fn make() -> UniquePtr<CxxSourceManager>;
+        unsafe fn make() -> UniquePtr<CxxSourceManager>;
     }
 }
 
@@ -24,15 +24,8 @@ use self::ffi::SourceManager;
 
 impl SourceManager {
     #[inline]
-    pub fn new() -> Self {
+    pub unsafe fn new() -> Self {
         let ptr = self::ffi::make();
         Self { ptr }
-    }
-}
-
-impl Default for SourceManager {
-    #[inline]
-    fn default() -> Self {
-        Self::new()
     }
 }

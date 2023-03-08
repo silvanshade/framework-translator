@@ -210,14 +210,14 @@ pub(crate) mod ffi {
     }
 
     #[namespace = "llvm"]
-    unsafe extern "C++" {
+    extern "C++" {
         include!("llvm/ADT/Triple.h");
 
         #[cxx_name = "Triple"]
         type CxxTriple;
     }
 
-    unsafe extern "C++" {
+    extern "C++" {
         include!("cxx/llvm/Triple.hxx");
 
         type ArchType;
@@ -234,65 +234,39 @@ pub(crate) mod ffi {
     }
 
     #[namespace = "cxx::llvm::Triple"]
-    unsafe extern "C++" {
+    extern "C++" {
         include!("cxx/llvm/Triple.hxx");
 
         #[namespace = "rust::llvm"]
         type Twine = crate::llvm::Twine;
 
-        fn make() -> UniquePtr<CxxTriple>;
+        unsafe fn make() -> UniquePtr<CxxTriple>;
 
-        fn from_twine(str: &Twine) -> UniquePtr<CxxTriple>;
+        unsafe fn from_twine(str: &Twine) -> UniquePtr<CxxTriple>;
 
-        fn from_arch_vendor_os(arch: &Twine, vendor: &Twine, os: &Twine) -> UniquePtr<CxxTriple>;
+        unsafe fn from_arch_vendor_os(arch: &Twine, vendor: &Twine, os: &Twine) -> UniquePtr<CxxTriple>;
     }
 }
 
 use self::ffi::Triple;
-use crate::llvm::{StringRef, Twine};
-use cxx::CxxString;
+use crate::llvm::Twine;
 
 impl Triple {
     #[inline]
-    pub fn new() -> Self {
+    pub unsafe fn new() -> Self {
         let ptr = self::ffi::make();
         Self { ptr }
     }
 
     #[inline]
-    pub fn from_arch_vendor_os(arch: &Twine, vendor: &Twine, os: &Twine) -> Self {
+    pub unsafe fn from_arch_vendor_os(arch: &Twine, vendor: &Twine, os: &Twine) -> Self {
         let ptr = self::ffi::from_arch_vendor_os(arch, vendor, os);
         Self { ptr }
     }
-}
 
-impl Default for Triple {
     #[inline]
-    fn default() -> Self {
-        Self::new()
-    }
-}
-
-impl From<&CxxString> for Triple {
-    #[inline]
-    fn from(value: &CxxString) -> Self {
-        let twine = Twine::from(value);
-        Triple::from(&twine)
-    }
-}
-
-impl From<&StringRef> for Triple {
-    #[inline]
-    fn from(value: &StringRef) -> Self {
-        let twine = Twine::from(value);
-        Triple::from(&twine)
-    }
-}
-
-impl From<&Twine> for Triple {
-    #[inline]
-    fn from(value: &Twine) -> Self {
-        let ptr = self::ffi::from_twine(value);
+    pub unsafe fn from_twine(str: &Twine) -> Self {
+        let ptr = self::ffi::from_twine(str);
         Self { ptr }
     }
 }

@@ -2,5 +2,7 @@ use clang_importer_sys::swift::SILOptions;
 
 #[test]
 fn new() {
-    let _ = SILOptions::new();
+    unsafe {
+        let _ = SILOptions::new();
+    }
 }

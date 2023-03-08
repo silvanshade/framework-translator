@@ -5,7 +5,7 @@ pub(crate) mod ffi {
     }
 
     #[namespace = "swift"]
-    unsafe extern "C++" {
+    extern "C++" {
         include!("swift/AST/SILOptions.h");
 
         #[cxx_name = "SILOptions"]
@@ -13,10 +13,10 @@ pub(crate) mod ffi {
     }
 
     #[namespace = "cxx::swift::SILOptions"]
-    unsafe extern "C++" {
+    extern "C++" {
         include!("cxx/swift/SILOptions.hxx");
 
-        fn make() -> UniquePtr<CxxSILOptions>;
+        unsafe fn make() -> UniquePtr<CxxSILOptions>;
     }
 }
 
@@ -24,15 +24,8 @@ use self::ffi::SILOptions;
 
 impl SILOptions {
     #[inline]
-    pub fn new() -> Self {
+    pub unsafe fn new() -> Self {
         let ptr = self::ffi::make();
         Self { ptr }
-    }
-}
-
-impl Default for SILOptions {
-    #[inline]
-    fn default() -> Self {
-        Self::new()
     }
 }
