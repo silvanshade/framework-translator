@@ -55,17 +55,3 @@ impl From<&StringRef> for Twine {
         Self { ptr }
     }
 }
-
-impl From<&str> for Twine {
-    fn from(expr: &str) -> Self {
-        cxx::let_cxx_string!(value = expr);
-        Twine::from(&*value)
-    }
-}
-
-impl From<String> for Twine {
-    fn from(expr: String) -> Self {
-        cxx::let_cxx_string!(value = expr);
-        Twine::from(&*value)
-    }
-}

@@ -29,6 +29,7 @@ fn main() -> Result<(), BoxError> {
 
     cxx_build::bridges([
         ffi_dir.join(PathBuf::from_iter(["llvm", "string_ref.rs"])),
+        ffi_dir.join(PathBuf::from_iter(["llvm", "triple.rs"])),
         ffi_dir.join(PathBuf::from_iter(["llvm", "twine.rs"])),
         ffi_dir.join(PathBuf::from_iter(["swift", "ast_context.rs"])),
         ffi_dir.join(PathBuf::from_iter(["swift", "clang_importer_options.rs"])),
@@ -59,6 +60,7 @@ fn main() -> Result<(), BoxError> {
     ])
     .files([
         PathBuf::from_iter(["cxx", "lib", "cxx", "llvm", "StringRef.cxx"]),
+        PathBuf::from_iter(["cxx", "lib", "cxx", "llvm", "Triple.cxx"]),
         PathBuf::from_iter(["cxx", "lib", "cxx", "llvm", "Twine.cxx"]),
         PathBuf::from_iter(["cxx", "lib", "cxx", "swift", "symbolgraphgen", "SymbolGraphGen.cxx"]),
         PathBuf::from_iter(["cxx", "lib", "cxx", "swift", "ASTContext.cxx"]),
