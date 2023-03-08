@@ -18,7 +18,7 @@ namespace Triple {
 
 std::unique_ptr<::llvm::Triple> make();
 
-std::unique_ptr<::llvm::Triple> from_twine(const rust::llvm::Twine &Str);
+std::unique_ptr<::llvm::Triple> from_twine(rust::llvm::Twine const &Str);
 
 std::unique_ptr<::llvm::Triple>
 from_arch_vendor_os(rust::llvm::Twine const &ArchStr,

@@ -10,10 +10,10 @@ namespace Twine {
 
 std::shared_ptr<::llvm::Twine> make();
 
-std::shared_ptr<::llvm::Twine> from_cxx_string(const std::string &Str);
+std::shared_ptr<::llvm::Twine> from_cxx_string(std::string const &Str);
 
 std::shared_ptr<::llvm::Twine>
-from_string_ref(const rust::llvm::StringRef &Str);
+from_string_ref(rust::llvm::StringRef const &Str);
 
 } // namespace Twine
 } // namespace llvm

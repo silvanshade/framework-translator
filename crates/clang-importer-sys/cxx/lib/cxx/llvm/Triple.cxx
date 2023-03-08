@@ -8,7 +8,7 @@ std::unique_ptr<::llvm::Triple> make() {
   return std::make_unique<::llvm::Triple>(::llvm::Triple());
 }
 
-std::unique_ptr<::llvm::Triple> from_twine(const rust::llvm::Twine &Str) {
+std::unique_ptr<::llvm::Triple> from_twine(rust::llvm::Twine const &Str) {
   return std::make_unique<::llvm::Triple>(::llvm::Triple(*Str.ptr));
 }
 
