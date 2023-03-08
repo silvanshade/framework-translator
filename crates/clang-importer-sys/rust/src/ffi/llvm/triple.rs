@@ -297,19 +297,3 @@ impl From<&Twine> for Triple {
         Self { ptr }
     }
 }
-
-impl From<&str> for Triple {
-    #[inline]
-    fn from(expr: &str) -> Self {
-        cxx::let_cxx_string!(value = expr);
-        Triple::from(&*value)
-    }
-}
-
-impl From<String> for Triple {
-    #[inline]
-    fn from(expr: String) -> Self {
-        cxx::let_cxx_string!(value = expr);
-        Triple::from(&*value)
-    }
-}
