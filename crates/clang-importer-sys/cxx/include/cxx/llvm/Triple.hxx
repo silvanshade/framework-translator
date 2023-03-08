@@ -21,9 +21,9 @@ std::unique_ptr<::llvm::Triple> make();
 std::unique_ptr<::llvm::Triple> from_twine(const rust::llvm::Twine &Str);
 
 std::unique_ptr<::llvm::Triple>
-from_arch_vendor_os(const rust::llvm::Twine &ArchStr,
-                    const rust::llvm::Twine &VendorStr,
-                    const rust::llvm::Twine &OSStr);
+from_arch_vendor_os(rust::llvm::Twine const &ArchStr,
+                    rust::llvm::Twine const &VendorStr,
+                    rust::llvm::Twine const &OSStr);
 
 } // namespace Triple
 } // namespace llvm

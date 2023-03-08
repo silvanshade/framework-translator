@@ -2,7 +2,7 @@
 pub(crate) mod ffi {
     #[namespace = "rust::llvm"]
     struct Triple {
-        ptr: UniquePtr<CxxTriple>,
+        pub(crate) ptr: UniquePtr<CxxTriple>,
     }
 
     #[namespace = "rust::llvm"]
