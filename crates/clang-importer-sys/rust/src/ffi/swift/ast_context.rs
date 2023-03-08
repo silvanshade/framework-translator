@@ -1,3 +1,5 @@
+#![allow(clippy::too_many_arguments)]
+
 #[cxx::bridge(namespace = "rust::swift")]
 pub(crate) mod ffi {
     struct ASTContext {

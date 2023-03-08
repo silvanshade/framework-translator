@@ -29,3 +29,10 @@ impl ClangImporterOptions {
         Self { ptr }
     }
 }
+
+impl Default for ClangImporterOptions {
+    #[inline]
+    fn default() -> Self {
+        Self::new()
+    }
+}

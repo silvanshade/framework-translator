@@ -41,6 +41,13 @@ impl Twine {
     }
 }
 
+impl Default for Twine {
+    #[inline]
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl From<&CxxString> for Twine {
     #[inline]
     fn from(value: &cxx::CxxString) -> Self {

@@ -51,3 +51,10 @@ impl LangOptions {
         self::ffi::SetTarget(this, target.ptr);
     }
 }
+
+impl Default for LangOptions {
+    #[inline]
+    fn default() -> Self {
+        Self::new()
+    }
+}

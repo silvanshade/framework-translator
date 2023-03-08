@@ -29,3 +29,10 @@ impl SearchPathOptions {
         Self { ptr }
     }
 }
+
+impl Default for SearchPathOptions {
+    #[inline]
+    fn default() -> Self {
+        Self::new()
+    }
+}

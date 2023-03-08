@@ -29,3 +29,10 @@ impl SILOptions {
         Self { ptr }
     }
 }
+
+impl Default for SILOptions {
+    #[inline]
+    fn default() -> Self {
+        Self::new()
+    }
+}

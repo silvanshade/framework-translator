@@ -29,3 +29,9 @@ impl SymbolGraphOptions {
         Self { ptr }
     }
 }
+
+impl Default for SymbolGraphOptions {
+    fn default() -> Self {
+        Self::new()
+    }
+}

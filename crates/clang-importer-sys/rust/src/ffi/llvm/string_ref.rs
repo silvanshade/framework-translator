@@ -64,6 +64,13 @@ impl StringRef {
     }
 }
 
+impl Default for StringRef {
+    #[inline]
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl From<&CxxString> for StringRef {
     #[inline]
     fn from(value: &cxx::CxxString) -> Self {

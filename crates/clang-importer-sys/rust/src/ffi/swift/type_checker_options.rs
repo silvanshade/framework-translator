@@ -29,3 +29,9 @@ impl TypeCheckerOptions {
         Self { ptr }
     }
 }
+
+impl Default for TypeCheckerOptions {
+    fn default() -> Self {
+        Self::new()
+    }
+}

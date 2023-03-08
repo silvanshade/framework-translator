@@ -267,6 +267,13 @@ impl Triple {
     }
 }
 
+impl Default for Triple {
+    #[inline]
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl From<&CxxString> for Triple {
     #[inline]
     fn from(cxx_string: &CxxString) -> Self {

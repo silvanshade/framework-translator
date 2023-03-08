@@ -29,3 +29,10 @@ impl SourceManager {
         Self { ptr }
     }
 }
+
+impl Default for SourceManager {
+    #[inline]
+    fn default() -> Self {
+        Self::new()
+    }
+}
