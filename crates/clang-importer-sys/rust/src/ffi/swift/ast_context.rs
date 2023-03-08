@@ -46,65 +46,92 @@ pub(crate) mod ffi {
         type TypeCheckerOptions = crate::swift::TypeCheckerOptions;
 
         fn get(
-            langOpts: &mut LangOptions,
-            typeckOpts: &mut TypeCheckerOptions,
-            silOpts: &mut SILOptions,
-            SearchPathOpts: &mut SearchPathOptions,
-            ClangImporterOpts: &mut ClangImporterOptions,
-            SymbolGraphOpts: &mut SymbolGraphOptions,
-            SourceMgr: &mut SourceManager,
-            Diags: &mut DiagnosticEngine,
+            lang_opts: &mut LangOptions,
+            typeck_opts: &mut TypeCheckerOptions,
+            sil_opts: &mut SILOptions,
+            search_path_opts: &mut SearchPathOptions,
+            clang_importer_opts: &mut ClangImporterOptions,
+            symbol_graph_opts: &mut SymbolGraphOptions,
+            source_mgr: &mut SourceManager,
+            diags: &mut DiagnosticEngine,
         ) -> UniquePtr<CxxASTContext>;
 
-        #[allow(unused)]
         fn getWithCallback(
-            langOpts: &mut LangOptions,
-            typeckOpts: &mut TypeCheckerOptions,
-            silOpts: &mut SILOptions,
-            SearchPathOpts: &mut SearchPathOptions,
-            ClangImporterOpts: &mut ClangImporterOptions,
-            SymbolGraphOpts: &mut SymbolGraphOptions,
-            SourceMgr: &mut SourceManager,
-            Diags: &mut DiagnosticEngine,
-            PreModuleImportCallback: fn(StringRef, bool) -> bool,
+            lang_opts: &mut LangOptions,
+            typeck_opts: &mut TypeCheckerOptions,
+            sil_opts: &mut SILOptions,
+            search_path_opts: &mut SearchPathOptions,
+            clang_importer_opts: &mut ClangImporterOptions,
+            symbol_graph_opts: &mut SymbolGraphOptions,
+            source_mgr: &mut SourceManager,
+            diags: &mut DiagnosticEngine,
+            pre_module_import_callback: fn(StringRef, bool) -> bool,
         ) -> UniquePtr<CxxASTContext>;
     }
 }
 
 use self::ffi::ASTContext;
-use crate::swift::{
-    symbolgraphgen::SymbolGraphOptions,
-    ClangImporterOptions,
-    DiagnosticEngine,
-    LangOptions,
-    SILOptions,
-    SearchPathOptions,
-    SourceManager,
-    TypeCheckerOptions,
+use crate::{
+    llvm::StringRef,
+    swift::{
+        symbolgraphgen::SymbolGraphOptions,
+        ClangImporterOptions,
+        DiagnosticEngine,
+        LangOptions,
+        SILOptions,
+        SearchPathOptions,
+        SourceManager,
+        TypeCheckerOptions,
+    },
 };
 
 impl ASTContext {
     #[inline]
-    #[allow(non_snake_case)]
     pub fn get(
-        langOpts: &mut LangOptions,
-        typeckOpts: &mut TypeCheckerOptions,
-        silOpts: &mut SILOptions,
-        SearchPathOpts: &mut SearchPathOptions,
-        ClangImporterOpts: &mut ClangImporterOptions,
-        SymbolGraphOpts: &mut SymbolGraphOptions,
-        SourceMgr: &mut SourceManager,
-        Diags: &mut DiagnosticEngine,
+        lang_opts: &mut LangOptions,
+        typeck_opts: &mut TypeCheckerOptions,
+        sil_opts: &mut SILOptions,
+        search_path_opts: &mut SearchPathOptions,
+        clang_importer_opts: &mut ClangImporterOptions,
+        symbol_graph_opts: &mut SymbolGraphOptions,
+        source_mgr: &mut SourceManager,
+        diags: &mut DiagnosticEngine,
     ) -> ASTContext {
         let ptr = self::ffi::get(
-            langOpts,
-            typeckOpts,
-            silOpts,
-            SearchPathOpts,
-            ClangImporterOpts,
-            SymbolGraphOpts,
-            SourceMgr,
-            Diags,
+            lang_opts,
+            typeck_opts,
+            sil_opts,
+            search_path_opts,
+            clang_importer_opts,
+            symbol_graph_opts,
+            source_mgr,
+            diags,
+        );
+        Self { ptr }
+    }
+
+    #[inline]
+    pub fn get_with_callback(
+        lang_opts: &mut LangOptions,
+        typeck_opts: &mut TypeCheckerOptions,
+        sil_opts: &mut SILOptions,
+        search_path_opts: &mut SearchPathOptions,
+        clang_importer_opts: &mut ClangImporterOptions,
+        symbol_graph_opts: &mut SymbolGraphOptions,
+        source_mgr: &mut SourceManager,
+        diags: &mut DiagnosticEngine,
+        pre_module_import_callback: fn(StringRef, bool) -> bool,
+    ) -> ASTContext {
+        let ptr = self::ffi::getWithCallback(
+            lang_opts,
+            typeck_opts,
+            sil_opts,
+            search_path_opts,
+            clang_importer_opts,
+            symbol_graph_opts,
+            source_mgr,
+            diags,
+            pre_module_import_callback,
         );
         Self { ptr }
     }

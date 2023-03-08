@@ -19,7 +19,7 @@ pub(crate) mod ffi {
         #[namespace = "rust::swift"]
         type SourceManager = crate::swift::SourceManager;
 
-        fn make(SourceMgr: &mut SourceManager) -> UniquePtr<CxxDiagnosticEngine>;
+        fn make(source_mgr: &mut SourceManager) -> UniquePtr<CxxDiagnosticEngine>;
     }
 }
 

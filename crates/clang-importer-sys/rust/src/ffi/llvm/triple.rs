@@ -242,9 +242,9 @@ pub(crate) mod ffi {
 
         fn make() -> UniquePtr<CxxTriple>;
 
-        fn from_twine(Str: &Twine) -> UniquePtr<CxxTriple>;
+        fn from_twine(str: &Twine) -> UniquePtr<CxxTriple>;
 
-        fn from_arch_vendor_os(ArchStr: &Twine, VendorStr: &Twine, OSStr: &Twine) -> UniquePtr<CxxTriple>;
+        fn from_arch_vendor_os(arch: &Twine, vendor: &Twine, os: &Twine) -> UniquePtr<CxxTriple>;
     }
 }
 
@@ -260,9 +260,8 @@ impl Triple {
     }
 
     #[inline]
-    #[allow(non_snake_case)]
-    pub fn from_arch_vendor_os(ArchStr: &Twine, VendorStr: &Twine, OSStr: &Twine) -> Self {
-        let ptr = self::ffi::from_arch_vendor_os(ArchStr, VendorStr, OSStr);
+    pub fn from_arch_vendor_os(arch: &Twine, vendor: &Twine, os: &Twine) -> Self {
+        let ptr = self::ffi::from_arch_vendor_os(arch, vendor, os);
         Self { ptr }
     }
 }
@@ -276,24 +275,24 @@ impl Default for Triple {
 
 impl From<&CxxString> for Triple {
     #[inline]
-    fn from(cxx_string: &CxxString) -> Self {
-        let twine = Twine::from(cxx_string);
+    fn from(value: &CxxString) -> Self {
+        let twine = Twine::from(value);
         Triple::from(&twine)
     }
 }
 
 impl From<&StringRef> for Triple {
     #[inline]
-    fn from(string_ref: &StringRef) -> Self {
-        let twine = Twine::from(string_ref);
+    fn from(value: &StringRef) -> Self {
+        let twine = Twine::from(value);
         Triple::from(&twine)
     }
 }
 
 impl From<&Twine> for Triple {
     #[inline]
-    fn from(twine: &Twine) -> Self {
-        let ptr = self::ffi::from_twine(twine);
+    fn from(value: &Twine) -> Self {
+        let ptr = self::ffi::from_twine(value);
         Self { ptr }
     }
 }

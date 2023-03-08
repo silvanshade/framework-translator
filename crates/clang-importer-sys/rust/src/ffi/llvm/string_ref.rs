@@ -44,11 +44,11 @@ pub(crate) mod ffi {
 
         fn make() -> SharedPtr<CxxStringRef>;
 
-        fn from_cxx_string(Str: &CxxString) -> SharedPtr<CxxStringRef>;
+        fn from_cxx_string(str: &CxxString) -> SharedPtr<CxxStringRef>;
 
-        fn equals(LHS: &CxxStringRef, RHS: &CxxStringRef) -> bool;
+        fn equals(lhs: &CxxStringRef, rhs: &CxxStringRef) -> bool;
 
-        fn equals_insensitive(LHS: &CxxStringRef, RHS: &CxxStringRef) -> bool;
+        fn equals_insensitive(lhs: &CxxStringRef, rhs: &CxxStringRef) -> bool;
     }
 }
 
@@ -108,30 +108,26 @@ impl StringRef {
 
 impl StringRef {
     #[inline]
-    #[allow(non_snake_case)]
-    pub fn find(&self, C: c_char, From: usize) -> usize {
-        self.ptr.find(C, From)
+    pub fn find(&self, c: c_char, from: usize) -> usize {
+        self.ptr.find(c, from)
     }
 }
 
 impl StringRef {
     #[inline]
-    #[allow(non_snake_case)]
-    pub fn count(&self, C: c_char) -> usize {
-        self.ptr.count(C)
+    pub fn count(&self, c: c_char) -> usize {
+        self.ptr.count(c)
     }
 }
 
 impl StringRef {
     #[inline]
-    #[allow(non_snake_case)]
-    pub fn equals(&self, RHS: &Self) -> bool {
-        ffi::equals(&self.ptr, &RHS.ptr)
+    pub fn equals(&self, that: &Self) -> bool {
+        ffi::equals(&self.ptr, &that.ptr)
     }
 
     #[inline]
-    #[allow(non_snake_case)]
-    pub fn equals_insensitive(&self, RHS: &Self) -> bool {
-        ffi::equals_insensitive(&self.ptr, &RHS.ptr)
+    pub fn equals_insensitive(&self, that: &Self) -> bool {
+        ffi::equals_insensitive(&self.ptr, &that.ptr)
     }
 }
