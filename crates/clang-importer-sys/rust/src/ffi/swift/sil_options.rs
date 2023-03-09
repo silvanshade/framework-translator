@@ -23,13 +23,6 @@ pub struct SILOptions {
     pub(crate) ptr: UniquePtr<CxxSILOptions>,
 }
 
-impl From<UniquePtr<CxxSILOptions>> for SILOptions {
-    #[inline]
-    fn from(ptr: UniquePtr<CxxSILOptions>) -> Self {
-        Self { ptr }
-    }
-}
-
 impl SILOptions {
     #[inline]
     pub unsafe fn new() -> Self {

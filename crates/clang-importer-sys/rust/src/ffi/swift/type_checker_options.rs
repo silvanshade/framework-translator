@@ -110,13 +110,6 @@ pub struct TypeCheckerOptions {
     pub(crate) ptr: UniquePtr<CxxTypeCheckerOptions>,
 }
 
-impl From<UniquePtr<CxxTypeCheckerOptions>> for TypeCheckerOptions {
-    #[inline]
-    fn from(ptr: UniquePtr<CxxTypeCheckerOptions>) -> Self {
-        Self { ptr }
-    }
-}
-
 impl TypeCheckerOptions {
     #[inline]
     pub unsafe fn new() -> Self {

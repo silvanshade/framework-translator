@@ -89,13 +89,6 @@ pub struct ASTContext {
     pub(crate) ptr: UniquePtr<CxxASTContext>,
 }
 
-impl From<UniquePtr<CxxASTContext>> for ASTContext {
-    #[inline]
-    fn from(ptr: UniquePtr<CxxASTContext>) -> Self {
-        Self { ptr }
-    }
-}
-
 impl ASTContext {
     #[inline]
     pub unsafe fn get(

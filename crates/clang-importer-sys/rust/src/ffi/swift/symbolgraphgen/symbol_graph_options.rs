@@ -23,13 +23,6 @@ pub struct SymbolGraphOptions {
     pub(crate) ptr: UniquePtr<CxxSymbolGraphOptions>,
 }
 
-impl From<UniquePtr<CxxSymbolGraphOptions>> for SymbolGraphOptions {
-    #[inline]
-    fn from(ptr: UniquePtr<CxxSymbolGraphOptions>) -> Self {
-        Self { ptr }
-    }
-}
-
 impl SymbolGraphOptions {
     #[inline]
     pub unsafe fn new() -> Self {

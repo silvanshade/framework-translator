@@ -32,13 +32,6 @@ pub struct LangOptions {
     pub(crate) ptr: UniquePtr<CxxLangOptions>,
 }
 
-impl From<UniquePtr<CxxLangOptions>> for LangOptions {
-    #[inline]
-    fn from(ptr: UniquePtr<CxxLangOptions>) -> Self {
-        Self { ptr }
-    }
-}
-
 impl LangOptions {
     #[inline]
     pub unsafe fn new() -> Self {

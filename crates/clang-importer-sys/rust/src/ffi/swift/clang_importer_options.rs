@@ -118,13 +118,6 @@ pub struct ClangImporterOptions {
     pub(crate) ptr: UniquePtr<CxxClangImporterOptions>,
 }
 
-impl From<UniquePtr<CxxClangImporterOptions>> for ClangImporterOptions {
-    #[inline]
-    fn from(ptr: UniquePtr<CxxClangImporterOptions>) -> Self {
-        Self { ptr }
-    }
-}
-
 impl ClangImporterOptions {
     #[inline]
     pub unsafe fn new() -> Self {

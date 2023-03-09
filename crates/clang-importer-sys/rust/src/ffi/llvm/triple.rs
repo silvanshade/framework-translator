@@ -265,13 +265,6 @@ pub struct Triple {
     pub(crate) ptr: UniquePtr<CxxTriple>,
 }
 
-impl From<UniquePtr<CxxTriple>> for Triple {
-    #[inline]
-    fn from(ptr: UniquePtr<CxxTriple>) -> Self {
-        Self { ptr }
-    }
-}
-
 impl From<&Twine<'_>> for Triple {
     #[inline]
     fn from(value: &Twine<'_>) -> Self {

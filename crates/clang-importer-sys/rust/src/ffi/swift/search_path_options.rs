@@ -23,13 +23,6 @@ pub struct SearchPathOptions {
     pub(crate) ptr: UniquePtr<CxxSearchPathOptions>,
 }
 
-impl From<UniquePtr<CxxSearchPathOptions>> for SearchPathOptions {
-    #[inline]
-    fn from(ptr: UniquePtr<CxxSearchPathOptions>) -> Self {
-        Self { ptr }
-    }
-}
-
 impl SearchPathOptions {
     #[inline]
     pub unsafe fn new() -> Self {

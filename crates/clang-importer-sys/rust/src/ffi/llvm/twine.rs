@@ -37,13 +37,6 @@ pub struct Twine<'a> {
     pub(crate) ptr: SharedPtr<CxxTwine<'a>>,
 }
 
-impl<'a> From<SharedPtr<CxxTwine<'a>>> for Twine<'a> {
-    #[inline]
-    fn from(ptr: SharedPtr<CxxTwine<'a>>) -> Self {
-        Self { ptr }
-    }
-}
-
 impl<'a> From<&'a CxxString> for Twine<'a> {
     #[inline]
     fn from(value: &'a CxxString) -> Self {

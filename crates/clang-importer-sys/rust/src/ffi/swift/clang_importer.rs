@@ -40,13 +40,6 @@ pub struct ClangImporter {
     pub(crate) ptr: UniquePtr<CxxClangImporter>,
 }
 
-impl From<UniquePtr<CxxClangImporter>> for ClangImporter {
-    #[inline]
-    fn from(ptr: UniquePtr<CxxClangImporter>) -> Self {
-        Self { ptr }
-    }
-}
-
 impl ClangImporter {
     #[inline]
     pub unsafe fn create(ctx: &mut ASTContext) -> Self {

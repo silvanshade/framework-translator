@@ -28,13 +28,6 @@ pub struct DiagnosticEngine {
     pub(crate) ptr: UniquePtr<CxxDiagnosticEngine>,
 }
 
-impl From<UniquePtr<CxxDiagnosticEngine>> for DiagnosticEngine {
-    #[inline]
-    fn from(ptr: UniquePtr<CxxDiagnosticEngine>) -> Self {
-        Self { ptr }
-    }
-}
-
 impl DiagnosticEngine {
     pub unsafe fn new(source_mgr: &mut SourceManager) -> Self {
         let ptr = self::ffi::make(source_mgr.ptr.pin_mut());

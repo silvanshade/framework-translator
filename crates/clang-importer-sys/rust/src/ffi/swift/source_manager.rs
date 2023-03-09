@@ -23,13 +23,6 @@ pub struct SourceManager {
     pub(crate) ptr: UniquePtr<CxxSourceManager>,
 }
 
-impl From<UniquePtr<CxxSourceManager>> for SourceManager {
-    #[inline]
-    fn from(ptr: UniquePtr<CxxSourceManager>) -> Self {
-        Self { ptr }
-    }
-}
-
 impl SourceManager {
     #[inline]
     pub unsafe fn new() -> Self {

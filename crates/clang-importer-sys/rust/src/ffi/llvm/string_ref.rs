@@ -59,13 +59,6 @@ pub struct StringRef<'a> {
     pub(crate) ptr: SharedPtr<CxxStringRef<'a>>,
 }
 
-impl<'a> From<SharedPtr<CxxStringRef<'a>>> for StringRef<'a> {
-    #[inline]
-    fn from(ptr: SharedPtr<CxxStringRef<'a>>) -> Self {
-        Self { ptr }
-    }
-}
-
 impl<'a> From<&'a CxxString> for StringRef<'a> {
     #[inline]
     fn from(value: &'a CxxString) -> Self {
