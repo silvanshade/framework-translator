@@ -27,6 +27,10 @@ pub(crate) mod ffi {
     extern "C++" {
         include!("cxx/swift/ClangImporterOptions.hxx");
 
+        #[namespace = "llvm"]
+        #[cxx_name = "hash_code"]
+        type CxxHashCode = crate::ffi::llvm::hash_code::ffi::CxxHashCode;
+
         unsafe fn make() -> UniquePtr<CxxClangImporterOptions>;
 
         unsafe fn clangPath(This: &CxxClangImporterOptions) -> &CxxString;
@@ -108,11 +112,19 @@ pub(crate) mod ffi {
         unsafe fn ExtraArgsOnly(This: &CxxClangImporterOptions) -> bool;
 
         unsafe fn set_ExtraArgsOnly(This: Pin<&mut CxxClangImporterOptions>, value: bool);
+
+        unsafe fn getPCHHashComponents(This: &CxxClangImporterOptions) -> UniquePtr<CxxHashCode>;
+
+        unsafe fn getRemappedExtraArgs(
+            This: &CxxClangImporterOptions,
+            pathRemapCallback: fn(&str) -> String,
+        ) -> UniquePtr<CxxVector<CxxString>>;
     }
 }
 
 use self::ffi::{CxxClangImporterOptions, Modes};
-use cxx::{CxxString, UniquePtr};
+use crate::llvm::HashCode;
+use cxx::{CxxString, CxxVector, UniquePtr};
 
 pub struct ClangImporterOptions {
     pub(crate) ptr: UniquePtr<CxxClangImporterOptions>,
@@ -150,10 +162,9 @@ impl ClangImporterOptions {
     }
 
     #[inline]
-    pub unsafe fn extra_args(&self) -> impl Iterator<Item = &CxxString> + '_ {
+    pub unsafe fn extra_args(&self) -> &CxxVector<CxxString> {
         let this = &self.ptr;
-        let args = self::ffi::ExtraArgs(this);
-        args.into_iter()
+        self::ffi::ExtraArgs(this)
     }
 
     #[inline]
@@ -364,5 +375,21 @@ impl ClangImporterOptions {
     pub unsafe fn set_extra_args_only(&mut self, value: bool) {
         let this = self.ptr.pin_mut();
         self::ffi::set_ExtraArgsOnly(this, value)
+    }
+
+    #[inline]
+    pub unsafe fn get_pch_hash_components(&self) -> HashCode {
+        let this = &self.ptr;
+        let ptr = self::ffi::getPCHHashComponents(this);
+        HashCode { ptr }
+    }
+
+    #[inline]
+    pub unsafe fn get_remapped_extra_args<'a>(
+        &'a self,
+        callback: fn(&str) -> String,
+    ) -> UniquePtr<CxxVector<CxxString>> {
+        let this = &self.ptr;
+        self::ffi::getRemappedExtraArgs(this, callback)
     }
 }

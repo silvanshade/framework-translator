@@ -70,7 +70,10 @@ fn set_extra_args_empty() {
         cxx::let_cxx_string!(foo = "f");
         cxx::let_cxx_string!(bar = "b");
         cxx::let_cxx_string!(qux = "q");
-        assert_eq!(&[&*foo, &*bar, &*qux], &*opts.extra_args().collect::<Vec<_>>());
+        assert_eq!(
+            &[&*foo, &*bar, &*qux],
+            &*opts.extra_args().into_iter().collect::<Vec<_>>()
+        );
     }
 }
 
@@ -81,12 +84,12 @@ fn set_extra_args_overwrite_extend_additional() {
         opts.set_extra_args(&["a", "b"]);
         cxx::let_cxx_string!(a = "a");
         cxx::let_cxx_string!(b = "b");
-        assert_eq!(&[&*a, &*b], &*opts.extra_args().collect::<Vec<_>>());
+        assert_eq!(&[&*a, &*b], &*opts.extra_args().into_iter().collect::<Vec<_>>());
         opts.set_extra_args(&["x", "y", "z"]);
         cxx::let_cxx_string!(x = "x");
         cxx::let_cxx_string!(y = "y");
         cxx::let_cxx_string!(z = "z");
-        assert_eq!(&[&*x, &*y, &*z], &*opts.extra_args().collect::<Vec<_>>());
+        assert_eq!(&[&*x, &*y, &*z], &*opts.extra_args().into_iter().collect::<Vec<_>>());
     }
 }
 
@@ -98,12 +101,12 @@ fn set_extra_args_overwrite_exact() {
         cxx::let_cxx_string!(a = "a");
         cxx::let_cxx_string!(b = "b");
         cxx::let_cxx_string!(c = "c");
-        assert_eq!(&[&*a, &*b, &*c], &*opts.extra_args().collect::<Vec<_>>());
+        assert_eq!(&[&*a, &*b, &*c], &*opts.extra_args().into_iter().collect::<Vec<_>>());
         opts.set_extra_args(&["x", "y", "z"]);
         cxx::let_cxx_string!(x = "x");
         cxx::let_cxx_string!(y = "y");
         cxx::let_cxx_string!(z = "z");
-        assert_eq!(&[&*x, &*y, &*z], &*opts.extra_args().collect::<Vec<_>>());
+        assert_eq!(&[&*x, &*y, &*z], &*opts.extra_args().into_iter().collect::<Vec<_>>());
     }
 }
 
@@ -115,11 +118,11 @@ fn set_extra_args_overwrite_erase_trailing() {
         cxx::let_cxx_string!(x = "x");
         cxx::let_cxx_string!(y = "y");
         cxx::let_cxx_string!(z = "z");
-        assert_eq!(&[&*x, &*y, &*z], &*opts.extra_args().collect::<Vec<_>>());
+        assert_eq!(&[&*x, &*y, &*z], &*opts.extra_args().into_iter().collect::<Vec<_>>());
         opts.set_extra_args(&["a", "b"]);
         cxx::let_cxx_string!(a = "a");
         cxx::let_cxx_string!(b = "b");
-        assert_eq!(&[&*a, &*b], &*opts.extra_args().collect::<Vec<_>>());
+        assert_eq!(&[&*a, &*b], &*opts.extra_args().into_iter().collect::<Vec<_>>());
     }
 }
 
@@ -444,5 +447,51 @@ fn set_extra_args_only() {
         opts.set_extra_args_only(value);
         let expected = value;
         assert_eq!(expected, opts.extra_args_only());
+    }
+}
+
+#[test]
+fn get_pch_hash_components() {
+    unsafe {
+        let opts = ClangImporterOptions::new();
+        let _ = opts.get_pch_hash_components();
+    }
+}
+
+#[test]
+fn get_remapped_extra_args_unchanged() {
+    unsafe {
+        let mut opts = ClangImporterOptions::new();
+        opts.set_extra_args(&["-unmapped", "-another=unmapped"]);
+        let remapped = opts.get_remapped_extra_args(|_| "remapped".into());
+        cxx::let_cxx_string!(arg0 = "-unmapped");
+        cxx::let_cxx_string!(arg1 = "-another=unmapped");
+        assert_eq!(vec![&*arg0, &*arg1], remapped.into_iter().collect::<Vec<_>>());
+    }
+}
+
+#[test]
+fn get_remapped_extra_args_changed() {
+    unsafe {
+        let mut opts = ClangImporterOptions::new();
+        opts.set_extra_args(&[
+            "-unmapped",
+            "-another=unmapped",
+            "-I",
+            "some/path",
+            "-ivfsoverlay",
+            "another/path",
+        ]);
+        let remapped = opts.get_remapped_extra_args(|_| "remapped".into());
+        cxx::let_cxx_string!(arg0 = "-unmapped");
+        cxx::let_cxx_string!(arg1 = "-another=unmapped");
+        cxx::let_cxx_string!(arg2 = "-I");
+        cxx::let_cxx_string!(arg3 = "remapped");
+        cxx::let_cxx_string!(arg4 = "-ivfsoverlay");
+        cxx::let_cxx_string!(arg5 = "remapped");
+        assert_eq!(
+            vec![&*arg0, &*arg1, &*arg2, &*arg3, &*arg4, &*arg5],
+            remapped.into_iter().collect::<Vec<_>>()
+        );
     }
 }

@@ -57,6 +57,7 @@ fn main() -> Result<(), BoxError> {
     .flag_if_supported("-Wno-deprecated-anon-enum-enum-conversion")
     .flag_if_supported("-Wno-deprecated-enum-enum-conversion")
     .flag_if_supported("-Wno-dollar-in-identifier-extension")
+    .flag_if_supported("-Wno-return-type-c-linkage")
     .flag_if_supported("-Wno-unused-parameter")
     .includes([
         cxxbridge_dir.join(PathBuf::from_iter(["clang-importer-sys", "rust", "src"])),

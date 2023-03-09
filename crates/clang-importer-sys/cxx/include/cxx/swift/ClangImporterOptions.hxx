@@ -3,6 +3,8 @@
 #include "rust/cxx.h"
 #include "swift/Basic/LangOptions.h"
 
+#include "llvm/ADT/StringRef.h"
+
 #include <memory>
 
 // NOTE: these are global since cxx emits enum asserts without qualified names
@@ -272,6 +274,22 @@ ExtraArgsOnly(::swift::ClangImporterOptions const& This)
 set_ExtraArgsOnly(::swift::ClangImporterOptions& This, bool value)
 {
   This.ExtraArgsOnly = value;
+}
+
+[[gnu::always_inline]] static inline std::unique_ptr<::llvm::hash_code>
+getPCHHashComponents(::swift::ClangImporterOptions const& This)
+{
+  return std::make_unique<::llvm::hash_code>(This.getPCHHashComponents());
+}
+
+[[gnu::always_inline]] static inline std::unique_ptr<std::vector<std::string>>
+getRemappedExtraArgs(::swift::ClangImporterOptions const& This, rust::Fn<rust::String(rust::Str)> pathRemapCallback)
+{
+  std::function<std::string(::llvm::StringRef)> lambda = [=](::llvm::StringRef s) {
+    auto string = (*pathRemapCallback)(rust::Str(s.data(), s.size()));
+    return std::string(string.data(), string.size());
+  };
+  return std::make_unique<std::vector<std::string>>(This.getRemappedExtraArgs(lambda));
 }
 
 } // namespace ClangImporterOptions
