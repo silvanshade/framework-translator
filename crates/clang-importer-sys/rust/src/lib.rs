@@ -9,7 +9,7 @@ pub mod clang {
 }
 
 pub mod llvm {
-    pub use crate::ffi::llvm::{string_ref::StringRef, triple::Triple, twine::Twine};
+    pub use crate::ffi::llvm::{hash_code::HashCode, string_ref::StringRef, triple::Triple, twine::Twine};
 
     pub mod triple {
         pub use crate::ffi::llvm::triple::ffi::{

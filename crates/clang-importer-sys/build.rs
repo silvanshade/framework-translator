@@ -28,6 +28,7 @@ fn main() -> Result<(), BoxError> {
     let ffi_dir = PathBuf::from_iter(["rust", "src", "ffi"]);
 
     cxx_build::bridges([
+        ffi_dir.join(PathBuf::from_iter(["llvm", "hash_code.rs"])),
         ffi_dir.join(PathBuf::from_iter(["llvm", "string_ref.rs"])),
         ffi_dir.join(PathBuf::from_iter(["llvm", "triple.rs"])),
         ffi_dir.join(PathBuf::from_iter(["llvm", "twine.rs"])),
