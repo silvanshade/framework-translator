@@ -31,6 +31,7 @@ pub(crate) mod ffi {
 
 use self::ffi::Twine;
 use crate::llvm::StringRef;
+use cxx::CxxString;
 
 impl<'a> Twine<'a> {
     #[inline]
@@ -40,7 +41,7 @@ impl<'a> Twine<'a> {
     }
 
     #[inline]
-    pub unsafe fn from_cxx_string(str: &'a cxx::CxxString) -> Self {
+    pub unsafe fn from_cxx_string(str: &'a CxxString) -> Self {
         let ptr = self::ffi::from_cxx_string(str);
         Self { ptr }
     }

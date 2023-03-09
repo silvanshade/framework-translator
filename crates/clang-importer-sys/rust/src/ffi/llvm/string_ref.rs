@@ -54,6 +54,7 @@ pub(crate) mod ffi {
 
 use self::ffi::StringRef;
 use core::ffi::c_char;
+use cxx::CxxString;
 
 impl<'a> StringRef<'a> {
     #[inline]
@@ -63,7 +64,7 @@ impl<'a> StringRef<'a> {
     }
 
     #[inline]
-    pub unsafe fn from_cxx_string(str: &'a cxx::CxxString) -> Self {
+    pub unsafe fn from_cxx_string(str: &'a CxxString) -> Self {
         let ptr = self::ffi::from_cxx_string(str);
         Self { ptr }
     }
