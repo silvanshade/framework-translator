@@ -116,8 +116,15 @@ pub(crate) mod ffi {
     }
 }
 
-use self::ffi::{ClangImporterOptions, Modes};
-use cxx::CxxString;
+use self::ffi::{ClangImporterOptions, CxxClangImporterOptions, Modes};
+use cxx::{CxxString, UniquePtr};
+
+impl From<UniquePtr<CxxClangImporterOptions>> for ClangImporterOptions {
+    #[inline]
+    fn from(ptr: UniquePtr<CxxClangImporterOptions>) -> Self {
+        Self { ptr }
+    }
+}
 
 impl ClangImporterOptions {
     #[inline]

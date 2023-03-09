@@ -23,8 +23,16 @@ pub(crate) mod ffi {
     }
 }
 
-use self::ffi::DiagnosticEngine;
+use self::ffi::{CxxDiagnosticEngine, DiagnosticEngine};
 use crate::swift::SourceManager;
+use cxx::UniquePtr;
+
+impl From<UniquePtr<CxxDiagnosticEngine>> for DiagnosticEngine {
+    #[inline]
+    fn from(ptr: UniquePtr<CxxDiagnosticEngine>) -> Self {
+        Self { ptr }
+    }
+}
 
 impl DiagnosticEngine {
     pub unsafe fn new(source_mgr: &mut SourceManager) -> Self {

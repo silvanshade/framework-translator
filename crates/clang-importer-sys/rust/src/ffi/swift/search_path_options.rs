@@ -20,7 +20,15 @@ pub(crate) mod ffi {
     }
 }
 
-use self::ffi::SearchPathOptions;
+use self::ffi::{CxxSearchPathOptions, SearchPathOptions};
+use cxx::UniquePtr;
+
+impl From<UniquePtr<CxxSearchPathOptions>> for SearchPathOptions {
+    #[inline]
+    fn from(ptr: UniquePtr<CxxSearchPathOptions>) -> Self {
+        Self { ptr }
+    }
+}
 
 impl SearchPathOptions {
     #[inline]

@@ -29,9 +29,16 @@ pub(crate) mod ffi {
     }
 }
 
-use self::ffi::Twine;
+use self::ffi::{CxxTwine, Twine};
 use crate::llvm::StringRef;
-use cxx::CxxString;
+use cxx::{CxxString, SharedPtr};
+
+impl<'a> From<SharedPtr<CxxTwine<'a>>> for Twine<'a> {
+    #[inline]
+    fn from(ptr: SharedPtr<CxxTwine<'a>>) -> Self {
+        Self { ptr }
+    }
+}
 
 impl<'a> Twine<'a> {
     #[inline]

@@ -20,7 +20,15 @@ pub(crate) mod ffi {
     }
 }
 
-use self::ffi::SILOptions;
+use self::ffi::{CxxSILOptions, SILOptions};
+use cxx::UniquePtr;
+
+impl From<UniquePtr<CxxSILOptions>> for SILOptions {
+    #[inline]
+    fn from(ptr: UniquePtr<CxxSILOptions>) -> Self {
+        Self { ptr }
+    }
+}
 
 impl SILOptions {
     #[inline]

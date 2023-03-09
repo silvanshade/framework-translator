@@ -34,8 +34,16 @@ pub(crate) mod ffi {
     }
 }
 
-use self::ffi::{ASTContext, ClangImporter};
+use self::ffi::{ASTContext, ClangImporter, CxxClangImporter};
 use crate::llvm::StringRef;
+use cxx::UniquePtr;
+
+impl From<UniquePtr<CxxClangImporter>> for ClangImporter {
+    #[inline]
+    fn from(ptr: UniquePtr<CxxClangImporter>) -> Self {
+        Self { ptr }
+    }
+}
 
 impl ClangImporter {
     #[inline]

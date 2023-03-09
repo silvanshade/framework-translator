@@ -52,9 +52,16 @@ pub(crate) mod ffi {
     }
 }
 
-use self::ffi::StringRef;
+use self::ffi::{CxxStringRef, StringRef};
 use core::ffi::c_char;
-use cxx::CxxString;
+use cxx::{CxxString, SharedPtr};
+
+impl<'a> From<SharedPtr<CxxStringRef<'a>>> for StringRef<'a> {
+    #[inline]
+    fn from(ptr: SharedPtr<CxxStringRef<'a>>) -> Self {
+        Self { ptr }
+    }
+}
 
 impl<'a> StringRef<'a> {
     #[inline]

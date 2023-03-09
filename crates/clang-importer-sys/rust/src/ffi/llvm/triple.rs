@@ -257,8 +257,16 @@ pub(crate) mod ffi {
     }
 }
 
-use self::ffi::Triple;
+use self::ffi::{CxxTriple, Triple};
 use crate::llvm::Twine;
+use cxx::UniquePtr;
+
+impl From<UniquePtr<CxxTriple>> for Triple {
+    #[inline]
+    fn from(ptr: UniquePtr<CxxTriple>) -> Self {
+        Self { ptr }
+    }
+}
 
 impl Triple {
     #[inline]

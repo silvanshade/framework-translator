@@ -70,7 +70,7 @@ pub(crate) mod ffi {
     }
 }
 
-use self::ffi::ASTContext;
+use self::ffi::{ASTContext, CxxASTContext};
 use crate::{
     llvm::StringRef,
     swift::{
@@ -84,6 +84,14 @@ use crate::{
         TypeCheckerOptions,
     },
 };
+use cxx::UniquePtr;
+
+impl From<UniquePtr<CxxASTContext>> for ASTContext {
+    #[inline]
+    fn from(ptr: UniquePtr<CxxASTContext>) -> Self {
+        Self { ptr }
+    }
+}
 
 impl ASTContext {
     #[inline]

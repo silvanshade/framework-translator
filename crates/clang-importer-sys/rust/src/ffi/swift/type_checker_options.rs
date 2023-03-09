@@ -20,7 +20,15 @@ pub(crate) mod ffi {
     }
 }
 
-use self::ffi::TypeCheckerOptions;
+use self::ffi::{CxxTypeCheckerOptions, TypeCheckerOptions};
+use cxx::UniquePtr;
+
+impl From<UniquePtr<CxxTypeCheckerOptions>> for TypeCheckerOptions {
+    #[inline]
+    fn from(ptr: UniquePtr<CxxTypeCheckerOptions>) -> Self {
+        Self { ptr }
+    }
+}
 
 impl TypeCheckerOptions {
     #[inline]

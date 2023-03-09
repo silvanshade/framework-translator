@@ -28,8 +28,16 @@ pub(crate) mod ffi {
     }
 }
 
-use self::ffi::LangOptions;
+use self::ffi::{CxxLangOptions, LangOptions};
 use crate::llvm::Triple;
+use cxx::UniquePtr;
+
+impl From<UniquePtr<CxxLangOptions>> for LangOptions {
+    #[inline]
+    fn from(ptr: UniquePtr<CxxLangOptions>) -> Self {
+        Self { ptr }
+    }
+}
 
 impl LangOptions {
     #[inline]

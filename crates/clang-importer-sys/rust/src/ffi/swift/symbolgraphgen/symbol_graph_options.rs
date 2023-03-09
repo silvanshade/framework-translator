@@ -20,7 +20,15 @@ pub(crate) mod ffi {
     }
 }
 
-use self::ffi::SymbolGraphOptions;
+use self::ffi::{CxxSymbolGraphOptions, SymbolGraphOptions};
+use cxx::UniquePtr;
+
+impl From<UniquePtr<CxxSymbolGraphOptions>> for SymbolGraphOptions {
+    #[inline]
+    fn from(ptr: UniquePtr<CxxSymbolGraphOptions>) -> Self {
+        Self { ptr }
+    }
+}
 
 impl SymbolGraphOptions {
     #[inline]

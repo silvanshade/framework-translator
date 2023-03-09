@@ -20,7 +20,15 @@ pub(crate) mod ffi {
     }
 }
 
-use self::ffi::SourceManager;
+use self::ffi::{CxxSourceManager, SourceManager};
+use cxx::UniquePtr;
+
+impl From<UniquePtr<CxxSourceManager>> for SourceManager {
+    #[inline]
+    fn from(ptr: UniquePtr<CxxSourceManager>) -> Self {
+        Self { ptr }
+    }
+}
 
 impl SourceManager {
     #[inline]
