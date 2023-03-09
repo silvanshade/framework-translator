@@ -13,12 +13,17 @@ fn new() {
 #[test]
 fn from_cxx_string() {
     unsafe {
-        let input = "string";
-        let_cxx_string!(str = input);
-        let value = StringRef::from_cxx_string(&*str);
-        let ptr = value.data();
-        let output = unsafe { std::ffi::CStr::from_ptr(ptr) }.to_string_lossy();
-        assert_eq!(output, input);
+        let_cxx_string!(expected = "string");
+        assert_eq!(&*expected, &*StringRef::from(&*expected).str());
+    }
+}
+
+#[test]
+fn from_rust_str() {
+    unsafe {
+        let value = "string";
+        let_cxx_string!(expected = value);
+        assert_eq!(&*expected, &*StringRef::from(value).str());
     }
 }
 
@@ -30,7 +35,7 @@ fn data() {
         let value = StringRef::from(&*str);
         let ptr = value.data();
         let output = unsafe { std::ffi::CStr::from_ptr(ptr) }.to_string_lossy();
-        assert_eq!(output, input);
+        assert_eq!(input, output);
     }
 }
 

@@ -40,15 +40,19 @@ pub(crate) mod ffi {
 
         unsafe fn from_cxx_string<'a>(str: &'a CxxString) -> SharedPtr<CxxStringRef<'a>>;
 
+        unsafe fn from_rust_str<'a>(str: &'a str) -> SharedPtr<CxxStringRef<'a>>;
+
         unsafe fn equals(lhs: &CxxStringRef<'_>, rhs: &CxxStringRef<'_>) -> bool;
 
         unsafe fn equals_insensitive(lhs: &CxxStringRef<'_>, rhs: &CxxStringRef<'_>) -> bool;
+
+        unsafe fn str(This: &CxxStringRef<'_>) -> UniquePtr<CxxString>;
     }
 }
 
 use self::ffi::CxxStringRef;
 use core::ffi::c_char;
-use cxx::{CxxString, SharedPtr};
+use cxx::{CxxString, SharedPtr, UniquePtr};
 
 #[derive(Clone)]
 pub struct StringRef<'a> {
@@ -70,16 +74,18 @@ impl<'a> From<&'a CxxString> for StringRef<'a> {
     }
 }
 
+impl<'a> From<&'a str> for StringRef<'a> {
+    #[inline]
+    fn from(value: &'a str) -> Self {
+        let ptr = unsafe { self::ffi::from_rust_str(value) };
+        Self { ptr }
+    }
+}
+
 impl<'a> StringRef<'a> {
     #[inline]
     pub unsafe fn new() -> Self {
         let ptr = self::ffi::make();
-        Self { ptr }
-    }
-
-    #[inline]
-    pub unsafe fn from_cxx_string(str: &'a CxxString) -> Self {
-        let ptr = self::ffi::from_cxx_string(str);
         Self { ptr }
     }
 }
@@ -134,5 +140,11 @@ impl<'a> StringRef<'a> {
     #[inline]
     pub unsafe fn equals_insensitive(&self, that: &Self) -> bool {
         ffi::equals_insensitive(&self.ptr, &that.ptr)
+    }
+
+    #[inline]
+    pub unsafe fn str(&self) -> UniquePtr<CxxString> {
+        let this = &self.ptr;
+        self::ffi::str(this)
     }
 }

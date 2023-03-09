@@ -12,18 +12,16 @@ fn new() {
 #[test]
 fn from_cxx_string() {
     unsafe {
-        let input = "string";
-        let_cxx_string!(str = input);
-        let _ = Twine::from_cxx_string(&*str);
+        let_cxx_string!(expected = "string");
+        assert_eq!(&*expected, &*Twine::from(&*expected).str());
     }
 }
 
 #[test]
 fn from_string_ref() {
     unsafe {
-        let input = "string";
-        let_cxx_string!(str = input);
-        let string_ref = StringRef::from(&*str);
-        let _ = Twine::from_string_ref(&string_ref);
+        let value = "string";
+        let_cxx_string!(expected = value);
+        assert_eq!(&*expected, &*Twine::from(StringRef::from(value)).str());
     }
 }
