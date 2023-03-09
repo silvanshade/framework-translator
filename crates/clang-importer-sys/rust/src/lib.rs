@@ -29,6 +29,7 @@ pub mod swift {
         clang_importer::ffi::ClangImporter,
         clang_importer_options::ffi::ClangImporterOptions,
         diagnostic_engine::ffi::DiagnosticEngine,
+        function_body_skipping::ffi::FunctionBodySkipping,
         lang_options::ffi::LangOptions,
         search_path_options::ffi::SearchPathOptions,
         sil_options::ffi::SILOptions,

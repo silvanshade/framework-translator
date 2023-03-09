@@ -2,6 +2,7 @@ pub(crate) mod ast_context;
 pub(crate) mod clang_importer;
 pub(crate) mod clang_importer_options;
 pub(crate) mod diagnostic_engine;
+pub(crate) mod function_body_skipping;
 pub(crate) mod lang_options;
 pub(crate) mod search_path_options;
 pub(crate) mod sil_options;
