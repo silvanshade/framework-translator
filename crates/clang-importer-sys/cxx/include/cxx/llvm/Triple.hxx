@@ -1,8 +1,7 @@
 #pragma once
 
-#include "ffi/llvm/twine.rs.h"
-
 #include "llvm/ADT/Triple.h"
+#include "llvm/ADT/Twine.h"
 
 #include <memory>
 
@@ -25,18 +24,15 @@ make()
 }
 
 [[gnu::always_inline]] static inline std::unique_ptr<::llvm::Triple>
-from_twine(rust::llvm::Twine const& Str)
+from_twine(::llvm::Twine const& Str)
 {
-  return std::make_unique<::llvm::Triple>(::llvm::Triple(*Str.ptr));
+  return std::make_unique<::llvm::Triple>(::llvm::Triple(Str));
 }
 
 [[gnu::always_inline]] static inline std::unique_ptr<::llvm::Triple>
-from_arch_vendor_os(
-  rust::llvm::Twine const& ArchStr,
-  rust::llvm::Twine const& VendorStr,
-  rust::llvm::Twine const& OSStr)
+from_arch_vendor_os(::llvm::Twine const& ArchStr, ::llvm::Twine const& VendorStr, ::llvm::Twine const& OSStr)
 {
-  return std::make_unique<::llvm::Triple>(::llvm::Triple(*ArchStr.ptr, *VendorStr.ptr, *OSStr.ptr));
+  return std::make_unique<::llvm::Triple>(::llvm::Triple(ArchStr, VendorStr, OSStr));
 }
 
 } // namespace Triple

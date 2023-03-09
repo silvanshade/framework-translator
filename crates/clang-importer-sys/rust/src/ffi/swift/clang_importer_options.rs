@@ -1,10 +1,5 @@
 #[cxx::bridge]
 pub(crate) mod ffi {
-    #[namespace = "rust::swift"]
-    struct ClangImporterOptions {
-        ptr: UniquePtr<CxxClangImporterOptions>,
-    }
-
     #[namespace = "swift"]
     extern "C++" {
         include!("swift/Basic/LangOptions.h");
@@ -116,8 +111,12 @@ pub(crate) mod ffi {
     }
 }
 
-use self::ffi::{ClangImporterOptions, CxxClangImporterOptions, Modes};
+use self::ffi::{CxxClangImporterOptions, Modes};
 use cxx::{CxxString, UniquePtr};
+
+pub struct ClangImporterOptions {
+    pub(crate) ptr: UniquePtr<CxxClangImporterOptions>,
+}
 
 impl From<UniquePtr<CxxClangImporterOptions>> for ClangImporterOptions {
     #[inline]

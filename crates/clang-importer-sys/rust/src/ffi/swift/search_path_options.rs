@@ -1,9 +1,5 @@
-#[cxx::bridge(namespace = "rust::swift")]
+#[cxx::bridge]
 pub(crate) mod ffi {
-    struct SearchPathOptions {
-        ptr: UniquePtr<CxxSearchPathOptions>,
-    }
-
     #[namespace = "swift"]
     extern "C++" {
         include!("swift/AST/SearchPathOptions.h");
@@ -20,8 +16,12 @@ pub(crate) mod ffi {
     }
 }
 
-use self::ffi::{CxxSearchPathOptions, SearchPathOptions};
+use self::ffi::CxxSearchPathOptions;
 use cxx::UniquePtr;
+
+pub struct SearchPathOptions {
+    pub(crate) ptr: UniquePtr<CxxSearchPathOptions>,
+}
 
 impl From<UniquePtr<CxxSearchPathOptions>> for SearchPathOptions {
     #[inline]

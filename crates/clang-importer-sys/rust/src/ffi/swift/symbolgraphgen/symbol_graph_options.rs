@@ -1,9 +1,5 @@
-#[cxx::bridge(namespace = "rust::swift::symbolgraphgen")]
+#[cxx::bridge]
 pub(crate) mod ffi {
-    struct SymbolGraphOptions {
-        ptr: UniquePtr<CxxSymbolGraphOptions>,
-    }
-
     #[namespace = "swift::symbolgraphgen"]
     extern "C++" {
         include!("swift/SymbolGraphGen/SymbolGraphOptions.h");
@@ -20,8 +16,12 @@ pub(crate) mod ffi {
     }
 }
 
-use self::ffi::{CxxSymbolGraphOptions, SymbolGraphOptions};
+use self::ffi::CxxSymbolGraphOptions;
 use cxx::UniquePtr;
+
+pub struct SymbolGraphOptions {
+    pub(crate) ptr: UniquePtr<CxxSymbolGraphOptions>,
+}
 
 impl From<UniquePtr<CxxSymbolGraphOptions>> for SymbolGraphOptions {
     #[inline]

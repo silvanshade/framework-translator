@@ -1,11 +1,5 @@
 #[cxx::bridge]
 pub(crate) mod ffi {
-    #[derive(Clone)]
-    #[namespace = "rust::llvm"]
-    struct StringRef<'a> {
-        ptr: SharedPtr<CxxStringRef<'a>>,
-    }
-
     #[namespace = "llvm"]
     extern "C++" {
         include!("llvm/ADT/StringRef.h");
@@ -52,9 +46,14 @@ pub(crate) mod ffi {
     }
 }
 
-use self::ffi::{CxxStringRef, StringRef};
+use self::ffi::CxxStringRef;
 use core::ffi::c_char;
 use cxx::{CxxString, SharedPtr};
+
+#[derive(Clone)]
+pub struct StringRef<'a> {
+    pub(crate) ptr: SharedPtr<CxxStringRef<'a>>,
+}
 
 impl<'a> From<SharedPtr<CxxStringRef<'a>>> for StringRef<'a> {
     #[inline]

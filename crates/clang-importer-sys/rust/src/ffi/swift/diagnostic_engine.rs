@@ -1,9 +1,5 @@
-#[cxx::bridge(namespace = "rust::swift")]
+#[cxx::bridge]
 pub(crate) mod ffi {
-    struct DiagnosticEngine {
-        ptr: UniquePtr<CxxDiagnosticEngine>,
-    }
-
     #[namespace = "swift"]
     extern "C++" {
         include!("swift/AST/DiagnosticEngine.h");
@@ -16,16 +12,21 @@ pub(crate) mod ffi {
     extern "C++" {
         include!("cxx/swift/DiagnosticEngine.hxx");
 
-        #[namespace = "rust::swift"]
-        type SourceManager = crate::swift::SourceManager;
+        #[namespace = "swift"]
+        #[cxx_name = "SourceManager"]
+        type CxxSourceManager = crate::ffi::swift::source_manager::ffi::CxxSourceManager;
 
-        unsafe fn make(source_mgr: &mut SourceManager) -> UniquePtr<CxxDiagnosticEngine>;
+        unsafe fn make(source_mgr: Pin<&mut CxxSourceManager>) -> UniquePtr<CxxDiagnosticEngine>;
     }
 }
 
-use self::ffi::{CxxDiagnosticEngine, DiagnosticEngine};
+use self::ffi::CxxDiagnosticEngine;
 use crate::swift::SourceManager;
 use cxx::UniquePtr;
+
+pub struct DiagnosticEngine {
+    pub(crate) ptr: UniquePtr<CxxDiagnosticEngine>,
+}
 
 impl From<UniquePtr<CxxDiagnosticEngine>> for DiagnosticEngine {
     #[inline]
@@ -36,7 +37,7 @@ impl From<UniquePtr<CxxDiagnosticEngine>> for DiagnosticEngine {
 
 impl DiagnosticEngine {
     pub unsafe fn new(source_mgr: &mut SourceManager) -> Self {
-        let ptr = self::ffi::make(source_mgr);
+        let ptr = self::ffi::make(source_mgr.ptr.pin_mut());
         Self { ptr }
     }
 }

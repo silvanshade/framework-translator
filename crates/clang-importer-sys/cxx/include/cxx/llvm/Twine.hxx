@@ -1,7 +1,6 @@
 #pragma once
 
-#include "ffi/llvm/string_ref.rs.h"
-
+#include "llvm/ADT/StringRef.h"
 #include "llvm/ADT/Twine.h"
 
 #include <memory>
@@ -23,9 +22,9 @@ from_cxx_string(std::string const& Str)
 }
 
 [[gnu::always_inline]] static inline std::shared_ptr<::llvm::Twine>
-from_string_ref(rust::llvm::StringRef const& Str)
+from_string_ref(::llvm::StringRef const& Str)
 {
-  return std::make_shared<::llvm::Twine>(::llvm::Twine(*Str.ptr));
+  return std::make_shared<::llvm::Twine>(::llvm::Twine(Str));
 }
 
 } // namespace Twine

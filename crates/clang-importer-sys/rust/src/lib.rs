@@ -9,7 +9,7 @@ pub mod clang {
 }
 
 pub mod llvm {
-    pub use crate::ffi::llvm::{string_ref::ffi::StringRef, triple::ffi::Triple, twine::ffi::Twine};
+    pub use crate::ffi::llvm::{string_ref::StringRef, triple::Triple, twine::Twine};
 
     pub mod triple {
         pub use crate::ffi::llvm::triple::ffi::{
@@ -25,16 +25,16 @@ pub mod llvm {
 
 pub mod swift {
     pub use crate::ffi::swift::{
-        ast_context::ffi::ASTContext,
-        clang_importer::ffi::ClangImporter,
-        clang_importer_options::ffi::ClangImporterOptions,
-        diagnostic_engine::ffi::DiagnosticEngine,
+        ast_context::ASTContext,
+        clang_importer::ClangImporter,
+        clang_importer_options::ClangImporterOptions,
+        diagnostic_engine::DiagnosticEngine,
         function_body_skipping::ffi::FunctionBodySkipping,
-        lang_options::ffi::LangOptions,
-        search_path_options::ffi::SearchPathOptions,
-        sil_options::ffi::SILOptions,
-        source_manager::ffi::SourceManager,
-        type_checker_options::ffi::TypeCheckerOptions,
+        lang_options::LangOptions,
+        search_path_options::SearchPathOptions,
+        sil_options::SILOptions,
+        source_manager::SourceManager,
+        type_checker_options::TypeCheckerOptions,
     };
 
     pub mod clang_importer_options {
@@ -42,6 +42,6 @@ pub mod swift {
     }
 
     pub mod symbolgraphgen {
-        pub use crate::ffi::swift::symbolgraphgen::symbol_graph_options::ffi::SymbolGraphOptions;
+        pub use crate::ffi::swift::symbolgraphgen::symbol_graph_options::SymbolGraphOptions;
     }
 }

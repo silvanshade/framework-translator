@@ -1,9 +1,5 @@
-#[cxx::bridge(namespace = "rust::swift")]
+#[cxx::bridge]
 pub(crate) mod ffi {
-    struct SourceManager {
-        ptr: UniquePtr<CxxSourceManager>,
-    }
-
     #[namespace = "swift"]
     extern "C++" {
         include!("swift/Basic/SourceManager.h");
@@ -20,8 +16,12 @@ pub(crate) mod ffi {
     }
 }
 
-use self::ffi::{CxxSourceManager, SourceManager};
+use self::ffi::CxxSourceManager;
 use cxx::UniquePtr;
+
+pub struct SourceManager {
+    pub(crate) ptr: UniquePtr<CxxSourceManager>,
+}
 
 impl From<UniquePtr<CxxSourceManager>> for SourceManager {
     #[inline]

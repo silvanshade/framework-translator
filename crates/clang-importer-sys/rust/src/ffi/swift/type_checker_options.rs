@@ -1,10 +1,5 @@
 #[cxx::bridge]
 pub(crate) mod ffi {
-    #[namespace = "rust::swift"]
-    struct TypeCheckerOptions {
-        ptr: UniquePtr<CxxTypeCheckerOptions>,
-    }
-
     #[namespace = "swift"]
     extern "C++" {
         include!("swift/Basic/LangOptions.h");
@@ -107,9 +102,13 @@ pub(crate) mod ffi {
     }
 }
 
-use self::ffi::{CxxTypeCheckerOptions, TypeCheckerOptions};
+use self::ffi::CxxTypeCheckerOptions;
 use crate::swift::FunctionBodySkipping;
 use cxx::{CxxString, UniquePtr};
+
+pub struct TypeCheckerOptions {
+    pub(crate) ptr: UniquePtr<CxxTypeCheckerOptions>,
+}
 
 impl From<UniquePtr<CxxTypeCheckerOptions>> for TypeCheckerOptions {
     #[inline]

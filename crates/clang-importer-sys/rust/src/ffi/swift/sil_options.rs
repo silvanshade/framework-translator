@@ -1,9 +1,5 @@
-#[cxx::bridge(namespace = "rust::swift")]
+#[cxx::bridge]
 pub(crate) mod ffi {
-    struct SILOptions {
-        ptr: UniquePtr<CxxSILOptions>,
-    }
-
     #[namespace = "swift"]
     extern "C++" {
         include!("swift/AST/SILOptions.h");
@@ -20,8 +16,12 @@ pub(crate) mod ffi {
     }
 }
 
-use self::ffi::{CxxSILOptions, SILOptions};
+use self::ffi::CxxSILOptions;
 use cxx::UniquePtr;
+
+pub struct SILOptions {
+    pub(crate) ptr: UniquePtr<CxxSILOptions>,
+}
 
 impl From<UniquePtr<CxxSILOptions>> for SILOptions {
     #[inline]

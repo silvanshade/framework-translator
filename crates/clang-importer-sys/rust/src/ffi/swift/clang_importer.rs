@@ -1,9 +1,5 @@
-#[cxx::bridge(namespace = "rust::swift")]
+#[cxx::bridge]
 pub(crate) mod ffi {
-    struct ClangImporter {
-        ptr: UniquePtr<CxxClangImporter>,
-    }
-
     #[namespace = "swift"]
     extern "C++" {
         include!("swift/ClangImporter/ClangImporter.h");
@@ -16,27 +12,33 @@ pub(crate) mod ffi {
     extern "C++" {
         include!("cxx/swift/ClangImporter.hxx");
 
-        #[namespace = "rust::swift"]
-        type ASTContext = crate::swift::ASTContext;
+        #[namespace = "swift"]
+        #[cxx_name = "ASTContext"]
+        type CxxASTContext = crate::ffi::swift::ast_context::ffi::CxxASTContext;
 
-        #[namespace = "rust::llvm"]
-        type StringRef<'a> = crate::llvm::StringRef<'a>;
+        #[namespace = "llvm"]
+        #[cxx_name = "StringRef"]
+        type CxxStringRef<'a> = crate::ffi::llvm::string_ref::ffi::CxxStringRef<'a>;
 
-        unsafe fn create(ctx: &mut ASTContext) -> UniquePtr<CxxClangImporter>;
+        unsafe fn create(ctx: Pin<&mut CxxASTContext>) -> UniquePtr<CxxClangImporter>;
 
-        unsafe fn canReadPCH(This: Pin<&mut CxxClangImporter>, pch_filename: &StringRef<'_>) -> bool;
+        unsafe fn canReadPCH(This: Pin<&mut CxxClangImporter>, pch_filename: &CxxStringRef<'_>) -> bool;
 
         unsafe fn emitBridgingPCH(
             This: Pin<&mut CxxClangImporter>,
-            header_path: &StringRef<'_>,
-            output_pch_path: &StringRef<'_>,
+            header_path: &CxxStringRef<'_>,
+            output_pch_path: &CxxStringRef<'_>,
         ) -> bool;
     }
 }
 
-use self::ffi::{ASTContext, ClangImporter, CxxClangImporter};
-use crate::llvm::StringRef;
+use self::ffi::CxxClangImporter;
+use crate::{llvm::StringRef, swift::ASTContext};
 use cxx::UniquePtr;
+
+pub struct ClangImporter {
+    pub(crate) ptr: UniquePtr<CxxClangImporter>,
+}
 
 impl From<UniquePtr<CxxClangImporter>> for ClangImporter {
     #[inline]
@@ -48,19 +50,19 @@ impl From<UniquePtr<CxxClangImporter>> for ClangImporter {
 impl ClangImporter {
     #[inline]
     pub unsafe fn create(ctx: &mut ASTContext) -> Self {
-        let ptr = self::ffi::create(ctx);
+        let ptr = self::ffi::create(ctx.ptr.pin_mut());
         Self { ptr }
     }
 
     #[inline]
     pub unsafe fn can_read_pch(&mut self, pch_filename: &StringRef<'_>) -> bool {
         let this = self.ptr.pin_mut();
-        self::ffi::canReadPCH(this, pch_filename)
+        self::ffi::canReadPCH(this, &pch_filename.ptr)
     }
 
     #[inline]
     pub unsafe fn emit_bridging_pch(&mut self, header_path: &StringRef<'_>, output_pch_path: &StringRef<'_>) -> bool {
         let this = self.ptr.pin_mut();
-        self::ffi::emitBridgingPCH(this, header_path, output_pch_path)
+        self::ffi::emitBridgingPCH(this, &header_path.ptr, &output_pch_path.ptr)
     }
 }

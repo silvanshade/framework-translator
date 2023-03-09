@@ -3,11 +3,6 @@ pub(crate) mod ffi {
     // NOTE: needed for the following enums (due to "last" cases)
     #![allow(unreachable_patterns)]
 
-    #[namespace = "rust::llvm"]
-    struct Triple {
-        pub(crate) ptr: UniquePtr<CxxTriple>,
-    }
-
     #[namespace = "llvm"]
     extern "C++" {
         include!("llvm/ADT/Triple.h");
@@ -246,20 +241,29 @@ pub(crate) mod ffi {
     extern "C++" {
         include!("cxx/llvm/Triple.hxx");
 
-        #[namespace = "rust::llvm"]
-        type Twine<'a> = crate::llvm::Twine<'a>;
+        #[namespace = "llvm"]
+        #[cxx_name = "Twine"]
+        type CxxTwine<'a> = crate::ffi::llvm::twine::ffi::CxxTwine<'a>;
 
         unsafe fn make() -> UniquePtr<CxxTriple>;
 
-        unsafe fn from_twine(str: &Twine<'_>) -> UniquePtr<CxxTriple>;
+        unsafe fn from_twine(str: &CxxTwine<'_>) -> UniquePtr<CxxTriple>;
 
-        unsafe fn from_arch_vendor_os(arch: &Twine<'_>, vendor: &Twine<'_>, os: &Twine<'_>) -> UniquePtr<CxxTriple>;
+        unsafe fn from_arch_vendor_os(
+            arch: &CxxTwine<'_>,
+            vendor: &CxxTwine<'_>,
+            os: &CxxTwine<'_>,
+        ) -> UniquePtr<CxxTriple>;
     }
 }
 
-use self::ffi::{CxxTriple, Triple};
+use self::ffi::CxxTriple;
 use crate::llvm::Twine;
 use cxx::UniquePtr;
+
+pub struct Triple {
+    pub(crate) ptr: UniquePtr<CxxTriple>,
+}
 
 impl From<UniquePtr<CxxTriple>> for Triple {
     #[inline]
@@ -271,7 +275,7 @@ impl From<UniquePtr<CxxTriple>> for Triple {
 impl From<&Twine<'_>> for Triple {
     #[inline]
     fn from(value: &Twine<'_>) -> Self {
-        let ptr = unsafe { self::ffi::from_twine(value) };
+        let ptr = unsafe { self::ffi::from_twine(&value.ptr) };
         Self { ptr }
     }
 }
@@ -285,13 +289,13 @@ impl Triple {
 
     #[inline]
     pub unsafe fn from_arch_vendor_os(arch: &Twine<'_>, vendor: &Twine<'_>, os: &Twine<'_>) -> Self {
-        let ptr = self::ffi::from_arch_vendor_os(arch, vendor, os);
+        let ptr = self::ffi::from_arch_vendor_os(&arch.ptr, &vendor.ptr, &os.ptr);
         Self { ptr }
     }
 
     #[inline]
     pub unsafe fn from_twine(str: &Twine<'_>) -> Self {
-        let ptr = self::ffi::from_twine(str);
+        let ptr = self::ffi::from_twine(&str.ptr);
         Self { ptr }
     }
 }

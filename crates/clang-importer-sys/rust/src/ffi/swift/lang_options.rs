@@ -1,9 +1,5 @@
-#[cxx::bridge(namespace = "rust::swift")]
+#[cxx::bridge]
 pub(crate) mod ffi {
-    struct LangOptions {
-        ptr: UniquePtr<CxxLangOptions>,
-    }
-
     #[namespace = "swift"]
     extern "C++" {
         include!("swift/Basic/LangOptions.h");
@@ -28,9 +24,13 @@ pub(crate) mod ffi {
     }
 }
 
-use self::ffi::{CxxLangOptions, LangOptions};
+use self::ffi::CxxLangOptions;
 use crate::llvm::Triple;
 use cxx::UniquePtr;
+
+pub struct LangOptions {
+    pub(crate) ptr: UniquePtr<CxxLangOptions>,
+}
 
 impl From<UniquePtr<CxxLangOptions>> for LangOptions {
     #[inline]
