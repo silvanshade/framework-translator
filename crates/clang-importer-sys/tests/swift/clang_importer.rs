@@ -1,5 +1,5 @@
 use clang_importer_sys::{
-    llvm::{Triple, Twine},
+    llvm::{StringRef, Triple, Twine},
     swift::{
         symbolgraphgen::SymbolGraphOptions,
         ASTContext,
@@ -21,9 +21,9 @@ fn create() {
         cxx::let_cxx_string!(arch = "x86_64");
         cxx::let_cxx_string!(vendor = "apple");
         cxx::let_cxx_string!(os = "darwin");
-        let arch = Twine::from_cxx_string(&*arch);
-        let vendor = Twine::from_cxx_string(&*vendor);
-        let os = Twine::from_cxx_string(&*os);
+        let arch = Twine::from(&*arch);
+        let vendor = Twine::from(&*vendor);
+        let os = Twine::from(&*os);
         lang_opts.set_target(Triple::from_arch_vendor_os(&arch, &vendor, &os));
         let mut typeck_opts = TypeCheckerOptions::new();
         let mut sil_opts = SILOptions::new();

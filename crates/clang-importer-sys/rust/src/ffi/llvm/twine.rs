@@ -40,6 +40,22 @@ impl<'a> From<SharedPtr<CxxTwine<'a>>> for Twine<'a> {
     }
 }
 
+impl<'a> From<&'a CxxString> for Twine<'a> {
+    #[inline]
+    fn from(value: &'a CxxString) -> Self {
+        let ptr = unsafe { self::ffi::from_cxx_string(value) };
+        Self { ptr }
+    }
+}
+
+impl<'a> From<&StringRef<'a>> for Twine<'a> {
+    #[inline]
+    fn from(value: &StringRef<'a>) -> Self {
+        let ptr = unsafe { self::ffi::from_string_ref(value) };
+        Self { ptr }
+    }
+}
+
 impl<'a> Twine<'a> {
     #[inline]
     pub unsafe fn new() -> Self {

@@ -63,6 +63,14 @@ impl<'a> From<SharedPtr<CxxStringRef<'a>>> for StringRef<'a> {
     }
 }
 
+impl<'a> From<&'a CxxString> for StringRef<'a> {
+    #[inline]
+    fn from(value: &'a CxxString) -> Self {
+        let ptr = unsafe { self::ffi::from_cxx_string(value) };
+        Self { ptr }
+    }
+}
+
 impl<'a> StringRef<'a> {
     #[inline]
     pub unsafe fn new() -> Self {

@@ -23,7 +23,7 @@ fn from_string_ref() {
     unsafe {
         let input = "string";
         let_cxx_string!(str = input);
-        let string_ref = StringRef::from_cxx_string(&*str);
+        let string_ref = StringRef::from(&*str);
         let _ = Twine::from_string_ref(&string_ref);
     }
 }

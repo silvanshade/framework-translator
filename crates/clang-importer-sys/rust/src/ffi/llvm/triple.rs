@@ -268,6 +268,14 @@ impl From<UniquePtr<CxxTriple>> for Triple {
     }
 }
 
+impl From<&Twine<'_>> for Triple {
+    #[inline]
+    fn from(value: &Twine<'_>) -> Self {
+        let ptr = unsafe { self::ffi::from_twine(value) };
+        Self { ptr }
+    }
+}
+
 impl Triple {
     #[inline]
     pub unsafe fn new() -> Self {
