@@ -2,8 +2,8 @@
 pub(crate) mod ffi {
     #[derive(Clone)]
     #[namespace = "rust::llvm"]
-    struct StringRef {
-        ptr: SharedPtr<CxxStringRef>,
+    struct StringRef<'a> {
+        ptr: SharedPtr<CxxStringRef<'a>>,
     }
 
     #[namespace = "llvm"]
@@ -11,51 +11,51 @@ pub(crate) mod ffi {
         include!("llvm/ADT/StringRef.h");
 
         #[cxx_name = "StringRef"]
-        type CxxStringRef;
+        type CxxStringRef<'a>;
     }
 
     // String Operations
     extern "C++" {
-        unsafe fn data(self: &CxxStringRef) -> *const c_char;
+        unsafe fn data(self: &CxxStringRef<'_>) -> *const c_char;
 
-        unsafe fn empty(self: &CxxStringRef) -> bool;
+        unsafe fn empty(self: &CxxStringRef<'_>) -> bool;
 
-        unsafe fn size(self: &CxxStringRef) -> usize;
+        unsafe fn size(self: &CxxStringRef<'_>) -> usize;
 
-        unsafe fn front(self: &CxxStringRef) -> c_char;
+        unsafe fn front(self: &CxxStringRef<'_>) -> c_char;
 
-        unsafe fn back(self: &CxxStringRef) -> c_char;
+        unsafe fn back(self: &CxxStringRef<'_>) -> c_char;
     }
 
     // String Searching
     extern "C++" {
-        unsafe fn find(self: &CxxStringRef, C: c_char, From: usize) -> usize;
+        unsafe fn find(self: &CxxStringRef<'_>, C: c_char, From: usize) -> usize;
     }
 
     // Helpful Algorithms
     extern "C++" {
-        unsafe fn count(self: &CxxStringRef, C: c_char) -> usize;
+        unsafe fn count(self: &CxxStringRef<'_>, C: c_char) -> usize;
     }
 
     // Fixes
     #[namespace = "cxx::llvm::StringRef"]
-    extern "C++" {
+    unsafe extern "C++" {
         include!("cxx/llvm/StringRef.hxx");
 
-        unsafe fn make() -> SharedPtr<CxxStringRef>;
+        unsafe fn make() -> SharedPtr<CxxStringRef<'static>>;
 
-        unsafe fn from_cxx_string(str: &CxxString) -> SharedPtr<CxxStringRef>;
+        unsafe fn from_cxx_string<'a>(str: &'a CxxString) -> SharedPtr<CxxStringRef<'a>>;
 
-        unsafe fn equals(lhs: &CxxStringRef, rhs: &CxxStringRef) -> bool;
+        unsafe fn equals(lhs: &CxxStringRef<'_>, rhs: &CxxStringRef<'_>) -> bool;
 
-        unsafe fn equals_insensitive(lhs: &CxxStringRef, rhs: &CxxStringRef) -> bool;
+        unsafe fn equals_insensitive(lhs: &CxxStringRef<'_>, rhs: &CxxStringRef<'_>) -> bool;
     }
 }
 
 use self::ffi::StringRef;
 use core::ffi::c_char;
 
-impl StringRef {
+impl<'a> StringRef<'a> {
     #[inline]
     pub unsafe fn new() -> Self {
         let ptr = self::ffi::make();
@@ -63,13 +63,13 @@ impl StringRef {
     }
 
     #[inline]
-    pub unsafe fn from_cxx_string(str: &cxx::CxxString) -> Self {
+    pub unsafe fn from_cxx_string(str: &'a cxx::CxxString) -> Self {
         let ptr = self::ffi::from_cxx_string(str);
         Self { ptr }
     }
 }
 
-impl StringRef {
+impl<'a> StringRef<'a> {
     #[inline]
     pub unsafe fn data(&self) -> *const c_char {
         self.ptr.data()
@@ -96,21 +96,21 @@ impl StringRef {
     }
 }
 
-impl StringRef {
+impl<'a> StringRef<'a> {
     #[inline]
     pub unsafe fn find(&self, c: c_char, from: usize) -> usize {
         self.ptr.find(c, from)
     }
 }
 
-impl StringRef {
+impl<'a> StringRef<'a> {
     #[inline]
     pub unsafe fn count(&self, c: c_char) -> usize {
         self.ptr.count(c)
     }
 }
 
-impl StringRef {
+impl<'a> StringRef<'a> {
     #[inline]
     pub unsafe fn equals(&self, that: &Self) -> bool {
         ffi::equals(&self.ptr, &that.ptr)

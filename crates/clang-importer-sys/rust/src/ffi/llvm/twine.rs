@@ -2,8 +2,8 @@
 pub(crate) mod ffi {
     #[derive(Clone)]
     #[namespace = "rust::llvm"]
-    struct Twine {
-        ptr: SharedPtr<CxxTwine>,
+    struct Twine<'a> {
+        ptr: SharedPtr<CxxTwine<'a>>,
     }
 
     #[namespace = "llvm"]
@@ -11,28 +11,28 @@ pub(crate) mod ffi {
         include!("llvm/ADT/Twine.h");
 
         #[cxx_name = "Twine"]
-        type CxxTwine;
+        type CxxTwine<'a>;
     }
 
     #[namespace = "cxx::llvm::Twine"]
-    extern "C++" {
+    unsafe extern "C++" {
         include!("cxx/llvm/Twine.hxx");
 
         #[namespace = "rust::llvm"]
-        type StringRef = crate::llvm::StringRef;
+        type StringRef<'a> = crate::llvm::StringRef<'a>;
 
-        unsafe fn make() -> SharedPtr<CxxTwine>;
+        unsafe fn make() -> SharedPtr<CxxTwine<'static>>;
 
-        unsafe fn from_cxx_string(str: &CxxString) -> SharedPtr<CxxTwine>;
+        unsafe fn from_cxx_string<'a>(str: &'a CxxString) -> SharedPtr<CxxTwine<'a>>;
 
-        unsafe fn from_string_ref(str: &StringRef) -> SharedPtr<CxxTwine>;
+        unsafe fn from_string_ref<'a>(str: &StringRef<'a>) -> SharedPtr<CxxTwine<'a>>;
     }
 }
 
 use self::ffi::Twine;
 use crate::llvm::StringRef;
 
-impl Twine {
+impl<'a> Twine<'a> {
     #[inline]
     pub unsafe fn new() -> Self {
         let ptr = self::ffi::make();
@@ -40,13 +40,13 @@ impl Twine {
     }
 
     #[inline]
-    pub unsafe fn from_cxx_string(str: &cxx::CxxString) -> Self {
+    pub unsafe fn from_cxx_string(str: &'a cxx::CxxString) -> Self {
         let ptr = self::ffi::from_cxx_string(str);
         Self { ptr }
     }
 
     #[inline]
-    pub unsafe fn from_string_ref(str: &StringRef) -> Self {
+    pub unsafe fn from_string_ref(str: &StringRef<'a>) -> Self {
         let ptr = self::ffi::from_string_ref(str);
         Self { ptr }
     }

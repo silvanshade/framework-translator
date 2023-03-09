@@ -37,7 +37,7 @@ pub(crate) mod ffi {
         type SourceManager = crate::swift::SourceManager;
 
         #[namespace = "rust::llvm"]
-        type StringRef = crate::llvm::StringRef;
+        type StringRef<'a> = crate::llvm::StringRef<'a>;
 
         #[namespace = "rust::swift::symbolgraphgen"]
         type SymbolGraphOptions = crate::swift::symbolgraphgen::SymbolGraphOptions;

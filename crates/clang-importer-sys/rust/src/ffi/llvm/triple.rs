@@ -238,13 +238,13 @@ pub(crate) mod ffi {
         include!("cxx/llvm/Triple.hxx");
 
         #[namespace = "rust::llvm"]
-        type Twine = crate::llvm::Twine;
+        type Twine<'a> = crate::llvm::Twine<'a>;
 
         unsafe fn make() -> UniquePtr<CxxTriple>;
 
-        unsafe fn from_twine(str: &Twine) -> UniquePtr<CxxTriple>;
+        unsafe fn from_twine(str: &Twine<'_>) -> UniquePtr<CxxTriple>;
 
-        unsafe fn from_arch_vendor_os(arch: &Twine, vendor: &Twine, os: &Twine) -> UniquePtr<CxxTriple>;
+        unsafe fn from_arch_vendor_os(arch: &Twine<'_>, vendor: &Twine<'_>, os: &Twine<'_>) -> UniquePtr<CxxTriple>;
     }
 }
 
@@ -259,13 +259,13 @@ impl Triple {
     }
 
     #[inline]
-    pub unsafe fn from_arch_vendor_os(arch: &Twine, vendor: &Twine, os: &Twine) -> Self {
+    pub unsafe fn from_arch_vendor_os(arch: &Twine<'_>, vendor: &Twine<'_>, os: &Twine<'_>) -> Self {
         let ptr = self::ffi::from_arch_vendor_os(arch, vendor, os);
         Self { ptr }
     }
 
     #[inline]
-    pub unsafe fn from_twine(str: &Twine) -> Self {
+    pub unsafe fn from_twine(str: &Twine<'_>) -> Self {
         let ptr = self::ffi::from_twine(str);
         Self { ptr }
     }
