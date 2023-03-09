@@ -8,12 +8,20 @@ namespace cxx {
 namespace llvm {
 namespace Twine {
 
-std::shared_ptr<::llvm::Twine> make();
+__attribute__((always_inline)) static inline std::shared_ptr<::llvm::Twine>
+make() {
+  return std::make_shared<::llvm::Twine>(::llvm::Twine::createNull());
+}
 
-std::shared_ptr<::llvm::Twine> from_cxx_string(std::string const &Str);
+__attribute__((always_inline)) static inline std::shared_ptr<::llvm::Twine>
+from_cxx_string(std::string const &Str) {
+  return std::make_shared<::llvm::Twine>(::llvm::Twine(Str));
+}
 
-std::shared_ptr<::llvm::Twine>
-from_string_ref(rust::llvm::StringRef const &Str);
+__attribute__((always_inline)) static inline std::shared_ptr<::llvm::Twine>
+from_string_ref(rust::llvm::StringRef const &Str) {
+  return std::make_shared<::llvm::Twine>(::llvm::Twine(*Str.ptr));
+}
 
 } // namespace Twine
 } // namespace llvm

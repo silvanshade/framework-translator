@@ -58,21 +58,6 @@ fn main() -> Result<(), BoxError> {
         llvm_project_dir.join(PathBuf::from_iter(["clang", "include"])),
         llvm_project_dir.join(PathBuf::from_iter(["llvm", "include"])),
     ])
-    .files([
-        PathBuf::from_iter(["cxx", "lib", "cxx", "llvm", "StringRef.cxx"]),
-        PathBuf::from_iter(["cxx", "lib", "cxx", "llvm", "Triple.cxx"]),
-        PathBuf::from_iter(["cxx", "lib", "cxx", "llvm", "Twine.cxx"]),
-        PathBuf::from_iter(["cxx", "lib", "cxx", "swift", "symbolgraphgen", "SymbolGraphGen.cxx"]),
-        PathBuf::from_iter(["cxx", "lib", "cxx", "swift", "ASTContext.cxx"]),
-        PathBuf::from_iter(["cxx", "lib", "cxx", "swift", "ClangImporter.cxx"]),
-        PathBuf::from_iter(["cxx", "lib", "cxx", "swift", "ClangImporterOptions.cxx"]),
-        PathBuf::from_iter(["cxx", "lib", "cxx", "swift", "DiagnosticEngine.cxx"]),
-        PathBuf::from_iter(["cxx", "lib", "cxx", "swift", "LangOptions.cxx"]),
-        PathBuf::from_iter(["cxx", "lib", "cxx", "swift", "SearchPathOptions.cxx"]),
-        PathBuf::from_iter(["cxx", "lib", "cxx", "swift", "SILOptions.cxx"]),
-        PathBuf::from_iter(["cxx", "lib", "cxx", "swift", "SourceManager.cxx"]),
-        PathBuf::from_iter(["cxx", "lib", "cxx", "swift", "TypeCheckerOptions.cxx"]),
-    ])
     .flag_if_supported("-std=c++20")
     .flag_if_supported("-Wno-ambiguous-reversed-operator")
     .flag_if_supported("-Wno-deprecated-anon-enum-enum-conversion")
