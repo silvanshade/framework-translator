@@ -241,7 +241,7 @@ fn set_optimization() {
 fn pch_disable_validation() {
     unsafe {
         let opts = ClangImporterOptions::new();
-        opts.pch_disable_validation();
+        assert_eq!(false, opts.pch_disable_validation());
     }
 }
 
@@ -280,7 +280,7 @@ fn set_mode() {
 fn detailed_preprocessing_record() {
     unsafe {
         let mut opts = ClangImporterOptions::new();
-        opts.detailed_preprocessing_record();
+        assert_eq!(false, opts.detailed_preprocessing_record());
     }
 }
 
@@ -299,7 +299,7 @@ fn set_detailed_preprocessing_record() {
 fn dump_clang_diagnostics() {
     unsafe {
         let opts = ClangImporterOptions::new();
-        opts.dump_clang_diagnostics();
+        assert_eq!(false, opts.dump_clang_diagnostics());
     }
 }
 
@@ -318,7 +318,7 @@ fn set_dump_clang_diagnostics() {
 fn import_forward_declarations() {
     unsafe {
         let opts = ClangImporterOptions::new();
-        opts.import_forward_declarations();
+        assert_eq!(false, opts.import_forward_declarations());
     }
 }
 
@@ -337,7 +337,7 @@ fn set_import_forward_declarations() {
 fn disable_swift_bridge_attr() {
     unsafe {
         let opts = ClangImporterOptions::new();
-        opts.disable_swift_bridge_attr();
+        assert_eq!(false, opts.disable_swift_bridge_attr());
     }
 }
 
@@ -356,7 +356,7 @@ fn set_disable_swift_bridge_attr() {
 fn disable_overlay_modules() {
     unsafe {
         let opts = ClangImporterOptions::new();
-        opts.disable_overlay_modules();
+        assert_eq!(false, opts.disable_overlay_modules());
     }
 }
 
@@ -375,7 +375,7 @@ fn set_disable_overlay_modules() {
 fn enable_clang_spi() {
     unsafe {
         let opts = ClangImporterOptions::new();
-        opts.enable_clang_spi();
+        assert_eq!(true, opts.enable_clang_spi());
     }
 }
 
@@ -394,7 +394,7 @@ fn set_enable_clang_spi() {
 fn debugger_support() {
     unsafe {
         let opts = ClangImporterOptions::new();
-        opts.debugger_support();
+        assert_eq!(false, opts.debugger_support());
     }
 }
 
@@ -413,7 +413,7 @@ fn set_debugger_support() {
 fn disable_source_import() {
     unsafe {
         let opts = ClangImporterOptions::new();
-        opts.disable_source_import();
+        assert_eq!(false, opts.disable_source_import());
     }
 }
 
@@ -432,7 +432,7 @@ fn set_disable_source_import() {
 fn extra_args_only() {
     unsafe {
         let opts = ClangImporterOptions::new();
-        opts.extra_args_only();
+        assert_eq!(false, opts.extra_args_only());
     }
 }
 
