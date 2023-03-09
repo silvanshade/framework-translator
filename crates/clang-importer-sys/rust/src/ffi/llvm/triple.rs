@@ -1,11 +1,23 @@
 #[cxx::bridge]
 pub(crate) mod ffi {
+    // NOTE: needed for the following enums (due to "last" cases)
+    #![allow(unreachable_patterns)]
+
     #[namespace = "rust::llvm"]
     struct Triple {
         pub(crate) ptr: UniquePtr<CxxTriple>,
     }
 
+    #[namespace = "llvm"]
+    extern "C++" {
+        include!("llvm/ADT/Triple.h");
+
+        #[cxx_name = "Triple"]
+        type CxxTriple;
+    }
+
     #[namespace = "rust::llvm"]
+    #[derive(Debug)]
     #[repr(u32)]
     enum ArchType {
         UnknownArch,
@@ -67,6 +79,7 @@ pub(crate) mod ffi {
     }
 
     #[namespace = "rust::llvm"]
+    #[derive(Debug)]
     #[repr(u32)]
     enum SubArchType {
         NoSubArch,
@@ -107,6 +120,7 @@ pub(crate) mod ffi {
     }
 
     #[namespace = "rust::llvm"]
+    #[derive(Debug)]
     #[repr(u32)]
     enum VendorType {
         UnknownVendor,
@@ -128,6 +142,7 @@ pub(crate) mod ffi {
     }
 
     #[namespace = "rust::llvm"]
+    #[derive(Debug)]
     #[repr(u32)]
     enum OSType {
         UnknownOS,
@@ -170,6 +185,7 @@ pub(crate) mod ffi {
     }
 
     #[namespace = "rust::llvm"]
+    #[derive(Debug)]
     #[repr(u32)]
     enum EnvironmentType {
         UnknownEnvironment,
@@ -198,6 +214,7 @@ pub(crate) mod ffi {
     }
 
     #[namespace = "rust::llvm"]
+    #[derive(Debug)]
     #[repr(u32)]
     enum ObjectFormatType {
         UnknownObjectFormat,
@@ -207,14 +224,6 @@ pub(crate) mod ffi {
         MachO,
         Wasm,
         XCOFF,
-    }
-
-    #[namespace = "llvm"]
-    extern "C++" {
-        include!("llvm/ADT/Triple.h");
-
-        #[cxx_name = "Triple"]
-        type CxxTriple;
     }
 
     extern "C++" {
