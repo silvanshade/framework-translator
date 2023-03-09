@@ -10,4 +10,5 @@ pub use crate::ffi::swift::{
     type_checker_options::ffi::TypeCheckerOptions,
 };
 
+pub mod clang_importer_options;
 pub mod symbolgraphgen;
