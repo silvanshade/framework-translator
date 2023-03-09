@@ -40,7 +40,7 @@ getWithCallback(
   rust::Fn<bool(rust::Str, bool)> PreModuleImportCallback)
 {
   std::function<bool(::llvm::StringRef, bool)> lambda = [=](::llvm::StringRef s, bool b) {
-    return (*PreModuleImportCallback)(rust::Str(s.data()), b);
+    return (*PreModuleImportCallback)(rust::Str(s.data(), s.size()), b);
   };
   auto raw = ::swift::ASTContext::get(
     langOpts, typeckOpts, silOpts, SearchPathOpts, ClangImporterOpts, SymbolGraphOpts, SourceMgr, Diags, lambda);
