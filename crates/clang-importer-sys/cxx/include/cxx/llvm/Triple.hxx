@@ -1,7 +1,9 @@
 #pragma once
 
 #include "ffi/llvm/twine.rs.h"
+
 #include "llvm/ADT/Triple.h"
+
 #include <memory>
 
 // NOTE: these are global since cxx emits enum asserts without qualified names
@@ -16,22 +18,25 @@ namespace cxx {
 namespace llvm {
 namespace Triple {
 
-__attribute__((always_inline)) static inline std::unique_ptr<::llvm::Triple>
-make() {
+[[gnu::always_inline]] static inline std::unique_ptr<::llvm::Triple>
+make()
+{
   return std::make_unique<::llvm::Triple>(::llvm::Triple());
 }
 
-__attribute__((always_inline)) static inline std::unique_ptr<::llvm::Triple>
-from_twine(rust::llvm::Twine const &Str) {
+[[gnu::always_inline]] static inline std::unique_ptr<::llvm::Triple>
+from_twine(rust::llvm::Twine const& Str)
+{
   return std::make_unique<::llvm::Triple>(::llvm::Triple(*Str.ptr));
 }
 
-__attribute__((always_inline)) static inline std::unique_ptr<::llvm::Triple>
-from_arch_vendor_os(rust::llvm::Twine const &ArchStr,
-                    rust::llvm::Twine const &VendorStr,
-                    rust::llvm::Twine const &OSStr) {
-  return std::make_unique<::llvm::Triple>(
-      ::llvm::Triple(*ArchStr.ptr, *VendorStr.ptr, *OSStr.ptr));
+[[gnu::always_inline]] static inline std::unique_ptr<::llvm::Triple>
+from_arch_vendor_os(
+  rust::llvm::Twine const& ArchStr,
+  rust::llvm::Twine const& VendorStr,
+  rust::llvm::Twine const& OSStr)
+{
+  return std::make_unique<::llvm::Triple>(::llvm::Triple(*ArchStr.ptr, *VendorStr.ptr, *OSStr.ptr));
 }
 
 } // namespace Triple

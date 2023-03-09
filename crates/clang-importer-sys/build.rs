@@ -198,6 +198,7 @@ fn link_system_libs() -> Result<(), BoxError> {
         let stdout = std::str::from_utf8(&stdout)?;
         if stdout.starts_with("Apple clang version") {
             if let Some(clang_version) = stdout.split_whitespace().nth(3) {
+                #[rustfmt::skip]
                 println!("cargo:rustc-link-search=/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/{clang_version}/lib/darwin");
                 println!("cargo:rustc-link-lib=static=clang_rt.osx");
             }
