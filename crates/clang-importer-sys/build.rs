@@ -47,6 +47,16 @@ fn main() -> Result<(), BoxError> {
         ffi_dir.join(PathBuf::from_iter(["swift", "type_checker_options.rs"])),
     ])
     .compiler("clang++")
+    .flag_if_supported("-std=c++20")
+    .flag_if_supported("-Werror")
+    .flag_if_supported("-Wall")
+    .flag_if_supported("-Wextra")
+    .flag_if_supported("-pedantic")
+    .flag_if_supported("-Wno-ambiguous-reversed-operator")
+    .flag_if_supported("-Wno-deprecated-anon-enum-enum-conversion")
+    .flag_if_supported("-Wno-deprecated-enum-enum-conversion")
+    .flag_if_supported("-Wno-dollar-in-identifier-extension")
+    .flag_if_supported("-Wno-unused-parameter")
     .includes([
         cxxbridge_dir.join(PathBuf::from_iter(["clang-importer-sys", "rust", "src"])),
         cxxbridge_dir,
@@ -58,11 +68,6 @@ fn main() -> Result<(), BoxError> {
         llvm_project_dir.join(PathBuf::from_iter(["clang", "include"])),
         llvm_project_dir.join(PathBuf::from_iter(["llvm", "include"])),
     ])
-    .flag_if_supported("-std=c++20")
-    .flag_if_supported("-Wno-ambiguous-reversed-operator")
-    .flag_if_supported("-Wno-deprecated-anon-enum-enum-conversion")
-    .flag_if_supported("-Wno-deprecated-enum-enum-conversion")
-    .flag_if_supported("-Wno-unused-parameter")
     .try_compile("clang-importer-sys")?;
 
     let swift_project_dir = PathBuf::from_iter(["..", "swift-project"]);
