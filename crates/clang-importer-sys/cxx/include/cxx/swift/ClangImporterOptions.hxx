@@ -285,7 +285,7 @@ getPCHHashComponents(::swift::ClangImporterOptions const& This)
 [[gnu::always_inline]] static inline std::unique_ptr<std::vector<std::string>>
 getRemappedExtraArgs(::swift::ClangImporterOptions const& This, rust::Fn<rust::String(rust::Str)> pathRemapCallback)
 {
-  std::function<std::string(::llvm::StringRef)> lambda = [=](::llvm::StringRef s) {
+  auto lambda = [=](::llvm::StringRef s) {
     auto string = (*pathRemapCallback)(rust::Str(s.data(), s.size()));
     return std::string(string.data(), string.size());
   };
