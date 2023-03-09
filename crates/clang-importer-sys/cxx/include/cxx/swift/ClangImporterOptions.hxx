@@ -154,14 +154,14 @@ set_PCHDisableValidation(::swift::ClangImporterOptions& This, bool value)
   This.PCHDisableValidation = value;
 }
 
-[[gnu::always_inline]] static inline Modes
+[[gnu::always_inline]] static inline ::swift::ClangImporterOptions::Modes
 Mode(::swift::ClangImporterOptions const& This)
 {
   return This.Mode;
 }
 
 [[gnu::always_inline]] static inline void
-set_Mode(::swift::ClangImporterOptions& This, Modes value)
+set_Mode(::swift::ClangImporterOptions& This, ::swift::ClangImporterOptions::Modes value)
 {
   This.Mode = value;
 }
