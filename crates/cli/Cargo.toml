@@ -1,6 +1,11 @@
 [package]
 edition = "2021"
-name = "clang-importer-cli"
+name = "framework-importer-cli"
 version = "0.0.0"
+authors = ["silvanshade <silvanshade@users.noreply.github.com>"]
+license = "Apache-2.0 WITH LLVM-exception"
+repository = "https://github.com/silvanshade/framework-translator"
+description = "The framework-importer command line interface"
+readme = "../README.md"
 
 [dependencies]

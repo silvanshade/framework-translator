@@ -2,6 +2,11 @@
 edition = "2021"
 name = "clang-importer-sys"
 version = "0.0.0"
+authors = ["silvanshade <silvanshade@users.noreply.github.com>"]
+license = "Apache-2.0 WITH LLVM-exception"
+repository = "https://github.com/silvanshade/framework-translator"
+description = "Rust bindings for Swift's ClangImporter"
+readme = "../README.md"
 
 [lib]
 name = "clang_importer_sys"
