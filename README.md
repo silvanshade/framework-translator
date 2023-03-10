@@ -2,6 +2,12 @@
 
 An Objective-C framework translator for Rust using Swift's [ClangImporter](https://github.com/apple/swift/tree/main/lib/ClangImporter)
 
+## Status
+
+This project is still in a very early stage and is not yet usable. The current focus is on building out the necessary bindings to the `ClangImporter` and related libraries. Once that is closer to completion, work will begin on the CLI frontend.
+
+The eventual goal is to be able to produce something suitable for usage with the [objc2](https://github.com/madsmtm/objc2) project that addresses some of the issues with the current [header-translator](https://github.com/madsmtm/objc2/tree/master/crates/header-translator). See [this issue](https://github.com/madsmtm/objc2/issues/345) for further details.
+
 ## Building
 
 1. Clone the Swift project and related repos by following the instructions [here](https://github.com/apple/swift/blob/main/docs/HowToGuides/GettingStarted.md#cloning-the-project).
