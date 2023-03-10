@@ -9,7 +9,7 @@ const NINJA_TARGET: &str = "macosx-arm64";
 #[cfg(all(target_os = "linux", target_arch = "x86_64"))]
 const NINJA_TARGET: &str = "linux-x86_64";
 #[cfg(all(target_os = "linux", target_arch = "aarch64"))]
-const NINJA_TARGET: &str = "linux_aarch64";
+const NINJA_TARGET: &str = "linux-arm64";
 
 fn main() -> Result<(), BoxError> {
     println!("cargo:rerun-if-changed=cxx");
